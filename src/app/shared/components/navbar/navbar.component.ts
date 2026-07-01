@@ -16,6 +16,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
         <div class="topbar-links">
           <a href="#">Estudiantes</a>
           <a href="#">Académicos</a>
+          <a routerLink="/calendar">Calendario Académico</a>
           <a href="#">Admisión</a>
           <a href="#">UCM Virtual</a>
         </div>
