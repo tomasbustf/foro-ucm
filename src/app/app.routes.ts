@@ -12,6 +12,7 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { CategoryDetailComponent } from './pages/category-detail/category-detail.component';
 import { MaterialsComponent } from './pages/materials/materials.component';
 import { UploadMaterialComponent } from './pages/upload-material/upload-material.component';
+import { NewsComponent } from './pages/news/news.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { SearchComponent } from './pages/search/search.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
@@ -37,6 +38,7 @@ export const routes: Routes = [
   { path: 'search', component: SearchComponent, canActivate: [authGuard] },
   { path: 'notifications', component: NotificationsComponent, canActivate: [authGuard] },
   { path: 'flyers', component: FlyersComponent, canActivate: [authGuard] },
+  { path: 'news', component: NewsComponent, canActivate: [authGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [authGuard, moderatorGuard] },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'terms-and-conditions', component: TermsComponent },
