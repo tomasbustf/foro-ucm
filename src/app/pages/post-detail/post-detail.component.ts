@@ -7,6 +7,7 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
 import { PostsService, Post } from '../../core/services/posts.service';
 import { RepliesService, Reply } from '../../core/services/replies.service';
 import { AuthService } from '../../core/services/auth.service';
+import { ReportsService } from '../../core/services/reports.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -57,6 +58,9 @@ import { AuthService } from '../../core/services/auth.service';
                   <button class="btn btn-ghost btn-sm" *ngIf="isAuthor()"
                           (click)="toggleSolved()">
                     {{ post()!.is_solved ? '↩️ Desmarcar resuelto' : '✅ Marcar resuelto' }}
+                  </button>
+                  <button class="btn btn-ghost btn-sm report-btn" *ngIf="auth.isAuthenticated()" (click)="openReportModal(post()!.id, 'post')">
+                    🚩 Reportar
                   </button>
                 </div>
               </div>
@@ -120,6 +124,34 @@ import { AuthService } from '../../core/services/auth.service';
             </div>
           </section>
         </main>
+      </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal-backdrop" *ngIf="showReportModal()" (click)="closeReportModal()">
+      <div class="modal-card card" (click)="$event.stopPropagation()">
+        <h3>Reportar Publicación</h3>
+        
+        <div class="report-warning">
+          <strong>⚠️ Advertencia:</strong> El buen uso de los reportes es obligatorio. Si realizas reportes falsos o malintencionados, tu cuenta será sancionada.
+        </div>
+
+        <label for="reportReason">Causa del reporte:</label>
+        <select id="reportReason" class="input-field" [(ngModel)]="reportReason">
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Contenido explícito o inapropiado">Contenido explícito o inapropiado</option>
+          <option value="Acoso o ataque contra una persona">Acoso o ataque contra una persona</option>
+          <option value="Información falsa / Desinformación">Información falsa / Desinformación</option>
+          <option value="Spam o publicidad no autorizada">Spam o publicidad no autorizada</option>
+          <option value="Otro motivo (incumplimiento de normas)">Otro motivo (incumplimiento de normas)</option>
+        </select>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" (click)="closeReportModal()">Cancelar</button>
+          <button class="btn btn-primary" [disabled]="!reportReason || reportSubmitting()" (click)="submitReport()">
+            {{ reportSubmitting() ? 'Enviando...' : 'Enviar Reporte' }}
+          </button>
+        </div>
       </div>
     </div>
 
@@ -190,6 +222,13 @@ import { AuthService } from '../../core/services/auth.service';
     @media(max-width:768px) {
       .post-top-row, .reply-row { flex-direction: column; }
     }
+    .report-btn { color: #d9534f; opacity: 0.8; }
+    .report-btn:hover { color: #c9302c; opacity: 1; background: rgba(217, 83, 79, 0.1); }
+    .modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+    .modal-card { width: 100%; max-width: 450px; padding: var(--space-xl); animation: scaleIn 0.2s ease-out; }
+    .modal-card h3 { margin-bottom: var(--space-md); font-weight: 700; color: var(--color-primary); }
+    .report-warning { background: #fff3cd; color: #856404; border-left: 4px solid #ffeeba; padding: 10px 15px; margin-bottom: var(--space-md); font-size: 0.85rem; border-radius: 0 4px 4px 0; line-height: 1.4; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: var(--space-sm); margin-top: var(--space-lg); }
   `]
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
@@ -202,10 +241,18 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   replyingTo = signal<string | null>(null);
   private subscription: any;
 
+  // Report state
+  showReportModal = signal(false);
+  reportReason = '';
+  reportTargetId = '';
+  reportTargetType: 'post' | 'reply' | 'material' = 'post';
+  reportSubmitting = signal(false);
+
   constructor(
     private route: ActivatedRoute,
     private postsService: PostsService,
     private repliesService: RepliesService,
+    private reportsService: ReportsService,
     public auth: AuthService
   ) {}
 
@@ -235,6 +282,31 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
   isAuthor(): boolean {
     return this.auth.user()?.id === this.post()?.author_id;
+  }
+
+  openReportModal(id: string, type: 'post' | 'reply' | 'material') {
+    this.reportTargetId = id;
+    this.reportTargetType = type;
+    this.reportReason = '';
+    this.showReportModal.set(true);
+  }
+
+  closeReportModal() {
+    this.showReportModal.set(false);
+  }
+
+  async submitReport() {
+    if (!this.reportReason) return;
+    this.reportSubmitting.set(true);
+    try {
+      await this.reportsService.report(this.reportTargetId, this.reportTargetType, this.reportReason);
+      alert('Reporte enviado correctamente. El equipo lo revisará.');
+      this.closeReportModal();
+    } catch (err: any) {
+      alert(err.message || 'Error al enviar reporte');
+    } finally {
+      this.reportSubmitting.set(false);
+    }
   }
 
   renderMarkdown(content: string): string {
