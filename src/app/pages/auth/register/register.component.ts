@@ -61,6 +61,10 @@ const CAREERS = [
 
           <p class="error-text" *ngIf="error() && !alreadyRegistered()">{{ error() }}</p>
 
+          <p class="terms-text">
+            Al registrarte, aceptas nuestros <a routerLink="/terms-and-conditions" target="_blank">Términos y Condiciones</a>, la <a routerLink="/privacy-policy" target="_blank">Política de Privacidad</a> y las <a routerLink="/conduct-rules" target="_blank">Normas de Uso</a>.
+          </p>
+
           <button type="submit" class="btn btn-primary btn-lg full-width" [disabled]="loading()">
             {{ loading() ? 'Creando cuenta...' : 'Registrarse' }}
           </button>
@@ -103,10 +107,8 @@ const CAREERS = [
     }
     .auth-header { text-align: center; margin-bottom: var(--space-xl); }
     .auth-header .logo-icon {
-      width: 48px; height: 48px; border-radius: var(--radius-md); margin: 0 auto var(--space-md);
-      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 0.8rem; font-weight: 900;
+      height: 64px; width: auto; object-fit: contain; margin: 0 auto var(--space-md);
+      display: block;
     }
     .auth-header h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: var(--space-xs); }
     .auth-header p { color: var(--color-text-muted); font-size: 0.9rem; }
@@ -121,6 +123,8 @@ const CAREERS = [
     .success-card p, .already-registered-card p { color: var(--color-text-muted); margin-bottom: var(--space-xl); line-height: 1.6; }
     .already-registered-card { border: 2px solid #F59E0B; }
     .already-registered-card h2 { color: #F59E0B; }
+    .terms-text { font-size: 0.75rem; color: var(--color-text-muted); text-align: center; margin-bottom: var(--space-md); line-height: 1.4; }
+    .terms-text a { color: var(--color-primary-light); text-decoration: underline; font-weight: 500; }
     select.input-field { cursor: pointer; }
     @media(max-width:540px) { .form-row { grid-template-columns: 1fr; } }
   `]

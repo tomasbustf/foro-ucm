@@ -60,10 +60,8 @@ import { AuthService } from '../../../core/services/auth.service';
     }
     .auth-header { text-align: center; margin-bottom: var(--space-xl); }
     .auth-header .logo-icon {
-      width: 48px; height: 48px; border-radius: var(--radius-md); margin: 0 auto var(--space-md);
-      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 0.8rem; font-weight: 900;
+      height: 64px; width: auto; object-fit: contain; margin: 0 auto var(--space-md);
+      display: block;
     }
     .auth-header h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: var(--space-xs); }
     .auth-header p { color: var(--color-text-muted); font-size: 0.9rem; }

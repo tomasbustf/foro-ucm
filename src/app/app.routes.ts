@@ -18,6 +18,10 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { AdminComponent } from './pages/admin/admin.component';
 import { FlyersComponent } from './pages/flyers/flyers.component';
 
+import { PrivacyPolicyComponent } from './pages/legal/privacy-policy/privacy-policy.component';
+import { TermsComponent } from './pages/legal/terms/terms.component';
+import { ConductRulesComponent } from './pages/legal/conduct-rules/conduct-rules.component';
+
 export const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'auth/login', component: LoginComponent },
@@ -34,5 +38,8 @@ export const routes: Routes = [
   { path: 'notifications', component: NotificationsComponent, canActivate: [authGuard] },
   { path: 'flyers', component: FlyersComponent, canActivate: [authGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [authGuard, moderatorGuard] },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'terms-and-conditions', component: TermsComponent },
+  { path: 'conduct-rules', component: ConductRulesComponent },
   { path: '**', redirectTo: '' }
 ];

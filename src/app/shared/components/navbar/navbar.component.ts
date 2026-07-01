@@ -139,7 +139,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
     /* NAVBAR PRINCIPAL */
     .navbar { background: #1B3A6B; padding: 0 24px; display: flex; align-items: center; gap: 0; height: 62px; }
     .navbar-logo { display: flex; align-items: center; gap: 10px; margin-right: 28px; text-decoration: none; }
-    .logo-icon { width: 38px; height: 38px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #1B3A6B; }
+    .logo-icon { height: 38px; width: auto; object-fit: contain; }
     .logo-text { color: white; font-size: 13px; font-weight: 600; line-height: 1.3; }
     .logo-text span { display: block; font-weight: 400; font-size: 10px; opacity: 0.85; }
     .nav-links { display: flex; height: 100%; }

@@ -163,9 +163,9 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
           </div>
           <div class="footer-col">
             <h4>Soporte</h4>
-            <a href="#">Reportar problema</a>
-            <a href="#">Política de privacidad</a>
-            <a href="#">Normas de uso</a>
+            <a routerLink="/privacy-policy">Política de privacidad</a>
+            <a routerLink="/terms-and-conditions">Términos y condiciones</a>
+            <a routerLink="/conduct-rules">Normas de uso y conducta</a>
           </div>
         </div>
         <div class="footer-bottom">
@@ -294,7 +294,7 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
     @media(max-width: 768px) { .footer-top { flex-direction: column; gap: 16px; } }
     .footer-brand { flex: 1; }
     .footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .logo-icon-footer { width: 32px; height: 32px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #1B3A6B; }
+    .logo-icon-footer { height: 32px; width: auto; object-fit: contain; }
     .footer-desc { font-size: 11px; line-height: 1.6; max-width: 300px; }
     .footer-col h4 { color: white; font-size: 12px; font-weight: 600; margin-bottom: 10px; }
     .footer-col a { display: block; color: rgba(255,255,255,0.65); margin-bottom: 5px; text-decoration: none; font-size: 11px; }
