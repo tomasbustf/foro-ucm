@@ -46,7 +46,7 @@ interface Flyer {
           <div class="flyer-footer">
             <div class="user-info">
               <div class="user-avatar" [style.background-image]="flyer.profiles?.avatar_url ? 'url(' + flyer.profiles?.avatar_url + ')' : 'none'">
-                <ng-container *ngIf="!flyer.profiles?.avatar_url">{{ flyer.profiles?.username?.charAt(0)?.toUpperCase() }}</ng-container>
+                <ng-container *ngIf="!flyer.profiles?.avatar_url">{{ (flyer.profiles?.full_name || flyer.profiles?.username)?.charAt(0)?.toUpperCase() }}</ng-container>
               </div>
               <span class="user-name">{{ flyer.profiles?.full_name || flyer.profiles?.username }}</span>
             </div>

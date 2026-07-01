@@ -70,9 +70,9 @@ import { SupabaseService } from '../../core/services/supabase.service';
         <div class="sidebar-card card">
           <h3 class="sidebar-title">🏆 Top Usuarios</h3>
           <div class="top-user" *ngFor="let u of topUsers()">
-            <div class="top-avatar">{{ u.username?.charAt(0)?.toUpperCase() }}</div>
+            <div class="top-avatar">{{ (u.full_name || u.username)?.charAt(0)?.toUpperCase() }}</div>
             <div class="top-info">
-              <span class="top-name">{{ u.username }}</span>
+              <span class="top-name">{{ u.full_name || u.username }}</span>
               <span class="top-rep">{{ u.reputation }} pts</span>
             </div>
           </div>
@@ -208,7 +208,7 @@ export class HomeComponent implements OnInit {
 
   private async loadSidebar() {
     const { data: users } = await this.supabase.client
-      .from('profiles').select('username, reputation')
+      .from('profiles').select('username, full_name, reputation')
       .order('reputation', { ascending: false }).limit(5);
     this.topUsers.set(users || []);
 

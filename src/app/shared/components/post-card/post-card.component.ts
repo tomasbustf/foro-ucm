@@ -48,7 +48,7 @@ import { Post } from '../../../core/services/posts.service';
             </span>
             <span class="meta-divider">·</span>
             <span class="meta-author">
-              {{ post.author?.username || 'Usuario' }}
+              {{ post.author?.full_name || post.author?.username || 'Usuario' }}
             </span>
             <span class="meta-divider">·</span>
             <span class="meta-time">{{ post.created_at | timeAgo }}</span>

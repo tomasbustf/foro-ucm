@@ -81,8 +81,8 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
               <div class="post-preview">{{ getPreview(post.content) }}</div>
               <div class="post-footer">
                 <div class="post-author">
-                  <div class="avatar-xs">{{ post.author?.username?.charAt(0)?.toUpperCase() || '?' }}</div>
-                  {{ post.author?.username }}
+                  <div class="avatar-xs">{{ (post.author?.full_name || post.author?.username)?.charAt(0)?.toUpperCase() || '?' }}</div>
+                  {{ post.author?.full_name || post.author?.username }}
                 </div>
                 <span>{{ post.created_at | timeAgo }}</span>
                 <div class="post-stats">
@@ -100,9 +100,9 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
               <div class="sidebar-card-header">🏆 Top colaboradores</div>
               <div class="sidebar-card-body">
                 <div class="user-item" *ngFor="let user of topUsers()">
-                  <div class="avatar-sm">{{ user.username?.charAt(0)?.toUpperCase() }}</div>
+                  <div class="avatar-sm">{{ (user.full_name || user.username)?.charAt(0)?.toUpperCase() }}</div>
                   <div>
-                    <div class="user-name">{{ user.username }}</div>
+                    <div class="user-name">{{ user.full_name || user.username }}</div>
                     <div class="user-rep"><span class="rep-badge">⭐ {{ user.reputation }} pts</span> · {{ auth.getReputationLevel(user.reputation).label }}</div>
                   </div>
                 </div>

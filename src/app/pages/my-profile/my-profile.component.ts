@@ -22,7 +22,7 @@ import { AuthService, Profile } from '../../core/services/auth.service';
                  [style.background-size]="'cover'"
                  [style.background-position]="'center'">
               <ng-container *ngIf="!profile()?.avatar_url">
-                {{ profile()?.username?.charAt(0)?.toUpperCase() }}
+                {{ (profile()?.full_name || profile()?.username)?.charAt(0)?.toUpperCase() }}
               </ng-container>
             </div>
             <div class="avatar-edit-overlay">

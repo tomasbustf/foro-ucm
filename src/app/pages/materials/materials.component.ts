@@ -78,7 +78,7 @@ import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
                 </div>
                 <p class="mat-desc" *ngIf="mat.description">{{ mat.description }}</p>
                 <div class="mat-meta">
-                  <span>Por {{ mat.uploader?.username || 'Usuario' }}</span>
+                  <span>Por {{ mat.uploader?.full_name || mat.uploader?.username || 'Usuario' }}</span>
                   <span>·</span>
                   <span>{{ mat.created_at | timeAgo }}</span>
                   <span>·</span>

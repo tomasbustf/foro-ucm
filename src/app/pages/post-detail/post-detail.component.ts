@@ -42,8 +42,8 @@ import { ReportsService } from '../../core/services/reports.service';
                 <h1 class="post-title">{{ post()!.title }}</h1>
                 <div class="post-meta-row">
                   <span class="author-link">
-                    <span class="avatar-sm">{{ post()!.author?.username?.charAt(0)?.toUpperCase() }}</span>
-                    {{ post()!.author?.username }}
+                    <span class="avatar-sm">{{ (post()!.author?.full_name || post()!.author?.username)?.charAt(0)?.toUpperCase() }}</span>
+                    {{ post()!.author?.full_name || post()!.author?.username }}
                   </span>
                   <span class="meta-sep">·</span>
                   <span>{{ post()!.created_at | timeAgo }}</span>
@@ -81,7 +81,7 @@ import { ReportsService } from '../../core/services/reports.service';
                   <div class="reply-accepted-badge" *ngIf="reply.is_accepted">✅ Respuesta aceptada</div>
                   <div class="markdown-content" [innerHTML]="renderMarkdown(reply.content)"></div>
                   <div class="reply-meta">
-                    <span>{{ reply.author?.username }}</span>
+                    <span>{{ reply.author?.full_name || reply.author?.username }}</span>
                     <span class="meta-sep">·</span>
                     <span>{{ reply.created_at | timeAgo }}</span>
                     <button class="btn btn-ghost btn-sm" *ngIf="isAuthor() && !reply.is_accepted"
@@ -93,7 +93,7 @@ import { ReportsService } from '../../core/services/reports.service';
                     <div class="nested-reply" *ngFor="let child of reply.children">
                       <div class="markdown-content" [innerHTML]="renderMarkdown(child.content)"></div>
                       <div class="reply-meta">
-                        <span>{{ child.author?.username }}</span>
+                        <span>{{ child.author?.full_name || child.author?.username }}</span>
                         <span class="meta-sep">·</span>
                         <span>{{ child.created_at | timeAgo }}</span>
                       </div>

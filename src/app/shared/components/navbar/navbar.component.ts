@@ -61,7 +61,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
                    [style.background-size]="'cover'"
                    [style.background-position]="'center'">
                 <ng-container *ngIf="!auth.profile()?.avatar_url">
-                  {{ auth.profile()?.username?.charAt(0)?.toUpperCase() || '?' }}
+                  {{ (auth.profile()?.full_name || auth.profile()?.username)?.charAt(0)?.toUpperCase() || '?' }}
                 </ng-container>
               </div>
               <div class="dropdown" *ngIf="showUserMenu()" (click)="$event.stopPropagation()">
@@ -71,7 +71,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
                        [style.background-size]="'cover'"
                        [style.background-position]="'center'">
                     <ng-container *ngIf="!auth.profile()?.avatar_url">
-                      {{ auth.profile()?.username?.charAt(0)?.toUpperCase() || '?' }}
+                      {{ (auth.profile()?.full_name || auth.profile()?.username)?.charAt(0)?.toUpperCase() || '?' }}
                     </ng-container>
                   </div>
                   <div class="dropdown-user-info">
