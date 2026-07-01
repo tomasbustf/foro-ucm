@@ -11,19 +11,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
     <header class="header-container" [class.scrolled]="scrolled()">
-      <!-- TOP BAR -->
-      <div class="topbar hide-mobile">
-        <div class="topbar-links">
-          <a href="#">Estudiantes</a>
-          <a href="#">Académicos</a>
-          <a href="#">Admisión</a>
-          <a href="#">UCM Virtual</a>
-        </div>
-        <div class="topbar-right">
-          <span>Talca, Campus San Miguel</span>
-          <button class="topbar-btn">Accesos</button>
-        </div>
-      </div>
+
 
       <!-- NAVBAR -->
       <nav class="navbar">
@@ -50,7 +38,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
           
           <ng-container *ngIf="auth.isAuthenticated(); else loginButtons">
             <!-- Notification Bell -->
-            <button class="btn-icon notification-bell" routerLink="/notifications" title="Notificaciones" style="color: white; background: transparent; border: none; cursor: pointer; position: relative;">
+            <button class="btn-icon notification-bell" routerLink="/notifications" title="Notificaciones" style="color: #1B3A6B; background: transparent; border: none; cursor: pointer; position: relative;">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
               <span class="notif-badge" *ngIf="notifications.unreadCount() > 0">
                 {{ notifications.unreadCount() > 9 ? '9+' : notifications.unreadCount() }}
@@ -128,32 +116,24 @@ import { NotificationsService } from '../../../core/services/notifications.servi
       font-family: 'Segoe UI', Arial, sans-serif;
     }
     
-    /* TOP BAR */
-    .topbar {
-      background: #F0F2F5; border-bottom: 1px solid #ddd; padding: 5px 24px;
-      display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #444;
-    }
-    .topbar-links { display: flex; gap: 14px; }
-    .topbar-links a { color: #444; text-decoration: none; }
-    .topbar-links a:hover { color: #1B3A6B; }
-    .topbar-right { display: flex; gap: 10px; align-items: center; }
-    .topbar-btn { background: #1B3A6B; color: white; padding: 3px 12px; border-radius: 3px; font-size: 11px; cursor: pointer; border: none; }
-
     /* NAVBAR PRINCIPAL */
-    .navbar { background: #1B3A6B; padding: 0 24px; display: flex; align-items: center; gap: 0; height: 62px; }
+    .navbar { background: #FFFFFF; padding: 0 24px; display: flex; align-items: center; gap: 0; height: 62px; }
     .navbar-logo { display: flex; align-items: center; gap: 10px; margin-right: 28px; text-decoration: none; }
     .logo-icon { height: 38px; width: auto; object-fit: contain; }
-    .logo-text { color: white; font-size: 13px; font-weight: 600; line-height: 1.3; }
-    .logo-text span { display: block; font-weight: 400; font-size: 10px; opacity: 0.85; }
+    .logo-text { color: #1B3A6B; font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .logo-text span { display: block; font-weight: 500; font-size: 10px; color: #4A5568; opacity: 0.85; }
     .nav-links { display: flex; height: 100%; }
-    .nav-link { color: rgba(255,255,255,0.88); font-size: 12.5px; padding: 0 15px; display: flex; align-items: center; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; height: 100%; gap: 4px; text-decoration: none;}
-    .nav-link:hover { color: white; border-bottom-color: #C8102E; }
-    .nav-link.active { color: white; border-bottom-color: #C8102E; font-weight: 600; }
+    .nav-link { color: #4A5568; font-size: 12.5px; padding: 0 15px; display: flex; align-items: center; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; height: 100%; gap: 4px; text-decoration: none; font-weight: 500;}
+    .nav-link:hover { color: #1B3A6B; border-bottom-color: #C8102E; }
+    .nav-link.active { color: #1B3A6B; border-bottom-color: #C8102E; font-weight: 700; }
     .nav-right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
-    .btn-login { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.4); padding: 6px 16px; border-radius: 4px; font-size: 12px; cursor: pointer; text-decoration: none;}
+    .btn-login { background: transparent; color: #1B3A6B; border: 1px solid #1B3A6B; padding: 6px 16px; border-radius: 4px; font-size: 12px; cursor: pointer; text-decoration: none; font-weight: 600;}
+    .btn-login:hover { background: #f8fafc; }
     .btn-register { background: #C8102E; color: white; border: none; padding: 7px 16px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 600; text-decoration: none; }
-    .nav-search { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; padding: 5px 10px; color: white; font-size: 12px; width: 180px; outline: none; }
-    .nav-search::placeholder { color: rgba(255,255,255,0.55); }
+    .btn-register:hover { background: #9a0c22; }
+    .nav-search { background: #F0F2F5; border: 1px solid #E2E8F0; border-radius: 4px; padding: 6px 12px; color: #1A202C; font-size: 12px; width: 180px; outline: none; transition: border-color 0.2s; }
+    .nav-search:focus { border-color: #1B3A6B; background: #FFFFFF; }
+    .nav-search::placeholder { color: #718096; }
     .red-line { height: 3px; background: #C8102E; width: 100%; }
 
     /* AUTH USER ELEMENTS */
@@ -167,13 +147,13 @@ import { NotificationsService } from '../../../core/services/notifications.servi
     .user-menu { position: relative; cursor: pointer; }
     .user-avatar {
       width: 34px; height: 34px; border-radius: 50%;
-      background: white;
+      background: #F0F2F5;
       color: #1B3A6B; display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 0.9rem;
       border: 2px solid transparent;
       transition: all 0.2s;
     }
-    .user-avatar:hover, .user-avatar.menu-open { border-color: #C8102E; box-shadow: 0 0 0 2px rgba(200,16,46,0.3); }
+    .user-avatar:hover, .user-avatar.menu-open { border-color: #C8102E; box-shadow: 0 0 0 2px rgba(200,16,46,0.1); }
 
     /* DROPDOWN */
     .dropdown {
