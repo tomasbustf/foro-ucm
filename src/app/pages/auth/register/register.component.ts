@@ -56,7 +56,23 @@ const CAREERS = [
           <div class="input-group">
             <label for="password">Contraseña</label>
             <input id="password" type="password" class="input-field" [(ngModel)]="password"
-                   name="password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                   name="password" placeholder="Mínimo 6 caracteres" required minlength="6"
+                   (input)="error.set('')">
+                   
+            <ul class="password-rules" *ngIf="password">
+              <li [class.valid]="hasMinLength">
+                <span class="rule-icon">{{ hasMinLength ? '✓' : '○' }}</span> Mínimo 6 caracteres
+              </li>
+              <li [class.valid]="hasUpperCase">
+                <span class="rule-icon">{{ hasUpperCase ? '✓' : '○' }}</span> Al menos una mayúscula
+              </li>
+              <li [class.valid]="hasNumber">
+                <span class="rule-icon">{{ hasNumber ? '✓' : '○' }}</span> Al menos un número
+              </li>
+              <li [class.valid]="hasSpecialChar">
+                <span class="rule-icon">{{ hasSpecialChar ? '✓' : '○' }}</span> Al menos un carácter especial
+              </li>
+            </ul>
           </div>
 
           <p class="error-text" *ngIf="error() && !alreadyRegistered()">{{ error() }}</p>
@@ -125,6 +141,10 @@ const CAREERS = [
     .already-registered-card h2 { color: #F59E0B; }
     .terms-text { font-size: 0.75rem; color: var(--color-text-muted); text-align: center; margin-bottom: var(--space-md); line-height: 1.4; }
     .terms-text a { color: var(--color-primary-light); text-decoration: underline; font-weight: 500; }
+    .password-rules { list-style: none; padding: 0; margin: 8px 0 0 0; font-size: 0.8rem; color: var(--color-text-muted); }
+    .password-rules li { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; transition: color 0.2s ease; }
+    .password-rules li.valid { color: #10B981; }
+    .rule-icon { font-size: 0.75rem; }
     select.input-field { cursor: pointer; }
     @media(max-width:540px) { .form-row { grid-template-columns: 1fr; } }
   `]
@@ -146,18 +166,14 @@ export class RegisterComponent {
     return true;
   }
 
+  get hasMinLength() { return this.password.length >= 6; }
+  get hasUpperCase() { return /[A-Z]/.test(this.password); }
+  get hasNumber() { return /[0-9]/.test(this.password); }
+  get hasSpecialChar() { return /[^a-zA-Z0-9]/.test(this.password); }
+
   validatePassword(): boolean {
-    const p = this.password;
-    if (!/[A-Z]/.test(p)) {
-      this.error.set('La contraseña debe contener al menos una letra mayúscula.');
-      return false;
-    }
-    if (!/[a-zA-Z]/.test(p) || !/[0-9]/.test(p)) {
-      this.error.set('La contraseña debe ser alfanumérica (contener letras y números).');
-      return false;
-    }
-    if (!/[^a-zA-Z0-9]/.test(p)) {
-      this.error.set('La contraseña debe contener al menos un carácter especial.');
+    if (!this.hasMinLength || !this.hasUpperCase || !this.hasNumber || !this.hasSpecialChar) {
+      this.error.set('La contraseña no cumple con todos los requisitos obligatorios.');
       return false;
     }
     return true;
