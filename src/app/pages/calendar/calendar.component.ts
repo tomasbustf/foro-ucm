@@ -242,8 +242,8 @@ export class CalendarComponent implements OnInit {
   async loadEvents() {
     const year = this.currentDate.getFullYear();
     const month = this.currentDate.getMonth() + 1; // 1-12
-    const startStr = \`\${year}-\${month.toString().padStart(2, '0')}-01\`;
-    const endStr = \`\${year}-\${month.toString().padStart(2, '0')}-\${new Date(year, month, 0).getDate()}\`;
+    const startStr = `${year}-${month.toString().padStart(2, '0')}-01`;
+    const endStr = `${year}-${month.toString().padStart(2, '0')}-${new Date(year, month, 0).getDate()}`;
     
     const { data } = await this.supabase.client
       .from('calendar_events')
@@ -260,7 +260,7 @@ export class CalendarComponent implements OnInit {
   getEventsForDay(day: number): CalendarEvent[] {
     const year = this.currentDate.getFullYear();
     const month = this.currentDate.getMonth() + 1;
-    const dateStr = \`\${year}-\${month.toString().padStart(2, '0')}-\${day.toString().padStart(2, '0')}\`;
+    const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     
     return this.events().filter(e => e.date === dateStr);
   }
@@ -306,7 +306,7 @@ export class CalendarComponent implements OnInit {
     const year = this.selectedDate.getFullYear();
     const month = this.selectedDate.getMonth() + 1;
     const day = this.selectedDate.getDate();
-    const dateStr = \`\${year}-\${month.toString().padStart(2, '0')}-\${day.toString().padStart(2, '0')}\`;
+    const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     
     try {
       if (this.editingEvent()) {
