@@ -55,9 +55,14 @@ const CAREERS = [
 
           <div class="input-group">
             <label for="password">Contraseña</label>
-            <input id="password" type="password" class="input-field" [(ngModel)]="password"
-                   name="password" placeholder="Mínimo 6 caracteres" required minlength="6"
-                   (input)="error.set('')">
+            <div class="password-wrapper">
+              <input id="password" [type]="showPassword ? 'text' : 'password'" class="input-field" [(ngModel)]="password"
+                     name="password" placeholder="Mínimo 6 caracteres" required minlength="6"
+                     (input)="error.set('')">
+              <button type="button" class="eye-toggle" (click)="showPassword = !showPassword" tabindex="-1">
+                {{ showPassword ? '🙈' : '👁️' }}
+              </button>
+            </div>
                    
             <ul class="password-rules" *ngIf="password">
               <li [class.valid]="hasMinLength">
@@ -73,6 +78,20 @@ const CAREERS = [
                 <span class="rule-icon">{{ hasSpecialChar ? '✓' : '○' }}</span> Al menos un carácter especial
               </li>
             </ul>
+          </div>
+
+          <div class="input-group">
+            <label for="confirmPassword">Confirmar Contraseña</label>
+            <div class="password-wrapper">
+              <input id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" class="input-field" [(ngModel)]="confirmPassword"
+                     name="confirmPassword" placeholder="Reescribe tu contraseña" required
+                     [class.input-error]="confirmPassword && password !== confirmPassword">
+              <button type="button" class="eye-toggle" (click)="showConfirmPassword = !showConfirmPassword" tabindex="-1">
+                {{ showConfirmPassword ? '🙈' : '👁️' }}
+              </button>
+            </div>
+            <span class="error-text" *ngIf="confirmPassword && password !== confirmPassword">Las contraseñas no coinciden</span>
+            <span class="match-text" *ngIf="confirmPassword && password === confirmPassword">✓ Las contraseñas coinciden</span>
           </div>
 
           <p class="error-text" *ngIf="error() && !alreadyRegistered()">{{ error() }}</p>
@@ -145,6 +164,11 @@ const CAREERS = [
     .password-rules li { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; transition: color 0.2s ease; }
     .password-rules li.valid { color: #10B981; }
     .rule-icon { font-size: 0.75rem; }
+    .password-wrapper { position: relative; display: flex; align-items: center; }
+    .password-wrapper .input-field { padding-right: 42px; width: 100%; }
+    .eye-toggle { position: absolute; right: 8px; background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 4px; line-height: 1; opacity: 0.6; transition: opacity 0.2s; }
+    .eye-toggle:hover { opacity: 1; }
+    .match-text { font-size: 0.8rem; color: #10B981; margin-top: 4px; }
     select.input-field { cursor: pointer; }
     @media(max-width:540px) { .form-row { grid-template-columns: 1fr; } }
   `]
@@ -152,7 +176,8 @@ const CAREERS = [
 export class RegisterComponent {
   careers = CAREERS;
   currentYear = new Date().getFullYear();
-  email = ''; career = ''; yearOfEntry: number | null = null; password = '';
+  email = ''; career = ''; yearOfEntry: number | null = null; password = ''; confirmPassword = '';
+  showPassword = false; showConfirmPassword = false;
   error = signal(''); emailError = signal(''); loading = signal(false); success = signal(false); alreadyRegistered = signal(false);
 
   constructor(private auth: AuthService, private router: Router) {}
@@ -174,6 +199,10 @@ export class RegisterComponent {
   validatePassword(): boolean {
     if (!this.hasMinLength || !this.hasUpperCase || !this.hasNumber || !this.hasSpecialChar) {
       this.error.set('La contraseña no cumple con todos los requisitos obligatorios.');
+      return false;
+    }
+    if (this.password !== this.confirmPassword) {
+      this.error.set('Las contraseñas no coinciden.');
       return false;
     }
     return true;
