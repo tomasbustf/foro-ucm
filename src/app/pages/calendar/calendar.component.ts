@@ -61,7 +61,6 @@ interface CalendarEvent {
         <h3>Leyenda</h3>
         <div class="legend-items">
           <div class="legend-item"><span class="legend-dot type-academico"></span> Hito Académico</div>
-          <div class="legend-item"><span class="legend-dot type-evaluacion"></span> Evaluación</div>
           <div class="legend-item"><span class="legend-dot type-feriado"></span> Feriado</div>
           <div class="legend-item"><span class="legend-dot type-horario_protegido"></span> Horario Protegido</div>
         </div>
@@ -86,7 +85,6 @@ interface CalendarEvent {
               <label>Tipo de Evento</label>
               <select class="input-field" [(ngModel)]="newEvent.type">
                 <option value="academico">Hito Académico</option>
-                <option value="evaluacion">Evaluación</option>
                 <option value="feriado">Feriado</option>
                 <option value="horario_protegido">Horario Protegido</option>
               </select>
@@ -132,7 +130,6 @@ interface CalendarEvent {
     
     /* Colors for event types */
     .type-academico { background: rgba(59, 130, 246, 0.15); color: #1d4ed8; }
-    .type-evaluacion { background: rgba(245, 158, 11, 0.15); color: #b45309; }
     .type-feriado { background: rgba(239, 68, 68, 0.15); color: #b91c1c; }
     .type-horario_protegido { background: rgba(139, 92, 246, 0.15); color: #6d28d9; }
     

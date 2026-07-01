@@ -42,6 +42,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
           <a routerLink="/materials" class="nav-link" routerLinkActive="active">Material de Estudio</a>
           <a routerLink="/flyers" class="nav-link" routerLinkActive="active">Diario Mural</a>
           <a routerLink="/news" class="nav-link" routerLinkActive="active">Noticias</a>
+          <a routerLink="/communities" class="nav-link" routerLinkActive="active">Comunidades</a>
         </div>
 
         <div class="nav-right">

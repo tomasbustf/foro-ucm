@@ -14,6 +14,7 @@ import { MaterialsComponent } from './pages/materials/materials.component';
 import { UploadMaterialComponent } from './pages/upload-material/upload-material.component';
 import { NewsComponent } from './pages/news/news.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
+import { CommunitiesComponent } from './pages/communities/communities.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { SearchComponent } from './pages/search/search.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
@@ -41,6 +42,7 @@ export const routes: Routes = [
   { path: 'flyers', component: FlyersComponent, canActivate: [authGuard] },
   { path: 'news', component: NewsComponent, canActivate: [authGuard] },
   { path: 'calendar', component: CalendarComponent, canActivate: [authGuard] },
+  { path: 'communities', component: CommunitiesComponent, canActivate: [authGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [authGuard, moderatorGuard] },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'terms-and-conditions', component: TermsComponent },
