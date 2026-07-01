@@ -146,6 +146,23 @@ export class RegisterComponent {
     return true;
   }
 
+  validatePassword(): boolean {
+    const p = this.password;
+    if (!/[A-Z]/.test(p)) {
+      this.error.set('La contraseña debe contener al menos una letra mayúscula.');
+      return false;
+    }
+    if (!/[a-zA-Z]/.test(p) || !/[0-9]/.test(p)) {
+      this.error.set('La contraseña debe ser alfanumérica (contener letras y números).');
+      return false;
+    }
+    if (!/[^a-zA-Z0-9]/.test(p)) {
+      this.error.set('La contraseña debe contener al menos un carácter especial.');
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Extracts name info from UCM email.
    * Formats: nombre.apellido@alumnos.ucm.cl or nombre.apellido.XX@alumnos.ucm.cl
@@ -166,6 +183,7 @@ export class RegisterComponent {
 
   async onSubmit() {
     if (!this.validateEmail()) return;
+    if (!this.validatePassword()) return;
     this.error.set(''); this.alreadyRegistered.set(false); this.loading.set(true);
     try {
       const { fullName, username } = this.parseEmailName(this.email);
