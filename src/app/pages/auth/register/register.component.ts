@@ -123,13 +123,21 @@ const CAREERS = [
         <button class="btn btn-secondary btn-lg full-width" style="margin-top: var(--space-sm);" (click)="resetForm()">Usar otro correo</button>
       </div>
 
-      <!-- Success message -->
-      <div class="auth-card card success-card" *ngIf="success()">
+      <!-- Success message (Email Confirmation Enabled) -->
+      <div class="auth-card card success-card" *ngIf="success() === 'email'">
         <div class="success-icon">📬</div>
         <h2>¡Revisa tu correo!</h2>
         <p>Te enviamos un email de verificación a <strong>{{ fullEmail }}</strong>.
            Haz clic en el enlace para activar tu cuenta.</p>
         <a routerLink="/auth/login" class="btn btn-primary btn-lg full-width">Ir a Iniciar Sesión</a>
+      </div>
+
+      <!-- Success message (Direct Login / Option A) -->
+      <div class="auth-card card success-card" *ngIf="success() === 'direct'">
+        <div class="success-icon">🎉</div>
+        <h2>¡Registro Exitoso!</h2>
+        <p>Tu cuenta <strong>{{ fullEmail }}</strong> fue creada y ya has iniciado sesión automáticamente.</p>
+        <a routerLink="/" class="btn btn-primary btn-lg full-width">Entrar al Foro</a>
       </div>
     </div>
   `,
@@ -186,7 +194,8 @@ export class RegisterComponent {
   currentYear = new Date().getFullYear();
   emailPrefix = ''; career = ''; yearOfEntry: number | null = null; password = ''; confirmPassword = '';
   showPassword = false; showConfirmPassword = false;
-  error = signal(''); emailError = signal(''); loading = signal(false); success = signal(false); alreadyRegistered = signal(false);
+  error = signal(''); emailError = signal(''); loading = signal(false); 
+  success = signal<'email' | 'direct' | null>(null); alreadyRegistered = signal(false);
 
   constructor(private auth: AuthService, private router: Router) {}
 
@@ -249,11 +258,19 @@ export class RegisterComponent {
     try {
       const { fullName, username } = this.parseEmailName(this.fullEmail);
 
-      await this.auth.signUp(this.fullEmail, this.password, {
+      const result = await this.auth.signUp(this.fullEmail, this.password, {
         username, full_name: fullName,
         career: this.career, year_of_entry: this.yearOfEntry || this.currentYear,
       });
-      this.success.set(true);
+      
+      // If session exists, user is already logged in (Email confirmation disabled)
+      if (result.session) {
+        this.success.set('direct');
+        // Redirigir al inicio después de 3 segundos
+        setTimeout(() => this.router.navigate(['/']), 3000);
+      } else {
+        this.success.set('email');
+      }
     } catch (err: any) {
       console.error('Registration error:', err);
       if (err?.message === 'EMAIL_ALREADY_REGISTERED') {
