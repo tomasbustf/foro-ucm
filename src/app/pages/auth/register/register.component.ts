@@ -31,10 +31,13 @@ const CAREERS = [
         <form (ngSubmit)="onSubmit()" class="auth-form">
 
           <div class="input-group">
-            <label for="email">Correo electrónico</label>
-            <input id="email" type="email" class="input-field" [(ngModel)]="email" name="email"
-                   placeholder="tu.nombre&#64;alumnos.ucm.cl" required
-                   [class.input-error]="emailError()">
+            <label for="emailPrefix">Correo electrónico institucional</label>
+            <div class="email-input-wrapper">
+              <input id="emailPrefix" type="text" class="input-field" [(ngModel)]="emailPrefix" name="emailPrefix"
+                     placeholder="tu.nombre" required
+                     [class.input-error]="emailError()">
+              <span class="email-domain">&#64;alumnos.ucm.cl</span>
+            </div>
             <span class="error-text" *ngIf="emailError()">{{ emailError() }}</span>
           </div>
 
@@ -114,7 +117,7 @@ const CAREERS = [
       <div class="auth-card card already-registered-card" *ngIf="alreadyRegistered()">
         <div class="already-registered-icon">⚠️</div>
         <h2>Este correo ya está registrado</h2>
-        <p>La cuenta <strong>{{ email }}</strong> ya existe en el Foro UCM.
+        <p>La cuenta <strong>{{ fullEmail }}</strong> ya existe en el Foro UCM.
            Si ya te registraste, puedes iniciar sesión directamente.</p>
         <a routerLink="/auth/login" class="btn btn-primary btn-lg full-width">Iniciar Sesión</a>
         <button class="btn btn-secondary btn-lg full-width" style="margin-top: var(--space-sm);" (click)="resetForm()">Usar otro correo</button>
@@ -124,7 +127,7 @@ const CAREERS = [
       <div class="auth-card card success-card" *ngIf="success()">
         <div class="success-icon">📬</div>
         <h2>¡Revisa tu correo!</h2>
-        <p>Te enviamos un email de verificación a <strong>{{ email }}</strong>.
+        <p>Te enviamos un email de verificación a <strong>{{ fullEmail }}</strong>.
            Haz clic en el enlace para activar tu cuenta.</p>
         <a routerLink="/auth/login" class="btn btn-primary btn-lg full-width">Ir a Iniciar Sesión</a>
       </div>
@@ -170,21 +173,34 @@ const CAREERS = [
     .eye-toggle:hover { opacity: 1; }
     .match-text { font-size: 0.8rem; color: #10B981; margin-top: 4px; }
     select.input-field { cursor: pointer; }
+    
+    .email-input-wrapper { display: flex; align-items: stretch; width: 100%; }
+    .email-input-wrapper .input-field { border-right: none; border-top-right-radius: 0; border-bottom-right-radius: 0; flex: 1; min-width: 0; }
+    .email-domain { background: var(--color-bg-alt); border: 2px solid var(--color-border); border-left: none; padding: 10px 14px; border-top-right-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); color: var(--color-text-secondary); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; white-space: nowrap;}
+    
     @media(max-width:540px) { .form-row { grid-template-columns: 1fr; } }
   `]
 })
 export class RegisterComponent {
   careers = CAREERS;
   currentYear = new Date().getFullYear();
-  email = ''; career = ''; yearOfEntry: number | null = null; password = ''; confirmPassword = '';
+  emailPrefix = ''; career = ''; yearOfEntry: number | null = null; password = ''; confirmPassword = '';
   showPassword = false; showConfirmPassword = false;
   error = signal(''); emailError = signal(''); loading = signal(false); success = signal(false); alreadyRegistered = signal(false);
 
   constructor(private auth: AuthService, private router: Router) {}
 
+  get fullEmail() {
+    return this.emailPrefix ? `${this.emailPrefix}@alumnos.ucm.cl` : '';
+  }
+
   validateEmail(): boolean {
-    if (!this.email.endsWith('@alumnos.ucm.cl')) {
-      this.emailError.set('Solo se permiten correos @alumnos.ucm.cl');
+    if (!this.emailPrefix.trim()) {
+      this.emailError.set('Ingresa tu nombre de usuario');
+      return false;
+    }
+    if (this.emailPrefix.includes('@')) {
+      this.emailError.set('No incluyas el @, solo tu nombre.apellido');
       return false;
     }
     this.emailError.set('');
@@ -231,9 +247,9 @@ export class RegisterComponent {
     if (!this.validatePassword()) return;
     this.error.set(''); this.alreadyRegistered.set(false); this.loading.set(true);
     try {
-      const { fullName, username } = this.parseEmailName(this.email);
+      const { fullName, username } = this.parseEmailName(this.fullEmail);
 
-      await this.auth.signUp(this.email, this.password, {
+      await this.auth.signUp(this.fullEmail, this.password, {
         username, full_name: fullName,
         career: this.career, year_of_entry: this.yearOfEntry || this.currentYear,
       });
@@ -252,6 +268,6 @@ export class RegisterComponent {
   resetForm() {
     this.alreadyRegistered.set(false);
     this.error.set('');
-    this.email = '';
+    this.emailPrefix = '';
   }
 }
