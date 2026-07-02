@@ -255,10 +255,28 @@ export class RegisterComponent {
       });
       this.success.set(true);
     } catch (err: any) {
-      if (err.message === 'EMAIL_ALREADY_REGISTERED') {
+      console.error('Registration error:', err);
+      if (err?.message === 'EMAIL_ALREADY_REGISTERED') {
         this.alreadyRegistered.set(true);
       } else {
-        this.error.set(err.message || 'Error al registrarse');
+        let msg = 'Error al registrarse. Intenta de nuevo más tarde.';
+        
+        if (err?.status === 429) {
+          msg = 'Has superado el límite de correos. Por seguridad de la plataforma, intenta en 60 minutos.';
+        } else if (err?.status === 500) {
+          msg = 'Error interno del servidor. Esto suele ocurrir si la configuración del correo SMTP (Brevo) es inválida o el remitente no está verificado.';
+        } else if (err?.message && err.message !== '{}') {
+          msg = typeof err.message === 'string' ? err.message : JSON.stringify(err.message);
+        } else {
+          // Fallback detailed stringify
+          msg = 'Error de Supabase: ' + JSON.stringify(err);
+        }
+        
+        // Translate common Supabase errors
+        if (msg.includes('rate limit')) msg = 'Has superado el límite de correos (Rate Limit). Intenta más tarde.';
+        if (msg.includes('Database error')) msg = 'Error en el servidor. Verifica que llenaste todos los campos (Carrera, etc).';
+        
+        this.error.set(msg);
       }
     } finally {
       this.loading.set(false);
