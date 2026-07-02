@@ -51,12 +51,12 @@ interface NewsItem {
           </div>
           <div class="news-content markdown-content" [innerHTML]="renderMarkdown(item.content)"></div>
           <div class="news-actions" *ngIf="isModerator()">
-            <button class="btn btn-ghost btn-sm text-danger" (click)="deleteNews(item.id)">🗑️ Eliminar</button>
+            <button class="btn btn-ghost btn-sm text-danger" (click)="deleteNews(item.id)">Eliminar</button>
           </div>
         </div>
 
         <div class="empty-state card" *ngIf="news().length === 0">
-          <div class="empty-state-icon">📢</div>
+          <div class="empty-state-icon">&bull;</div>
           <h3>No hay noticias recientes</h3>
           <p>Los comunicados oficiales aparecerán aquí.</p>
         </div>

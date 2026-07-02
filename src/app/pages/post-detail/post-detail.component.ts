@@ -34,8 +34,8 @@ import { ReportsService } from '../../core/services/reports.service';
               </app-vote-buttons>
               <div class="post-body">
                 <div class="post-badges">
-                  <span class="badge pinned" *ngIf="post()!.is_pinned">📌 Fijado</span>
-                  <span class="badge solved" *ngIf="post()!.is_solved">✅ Resuelto</span>
+                  <span class="badge pinned" *ngIf="post()!.is_pinned">&#9650; Fijado</span>
+                  <span class="badge solved" *ngIf="post()!.is_solved">&check; Resuelto</span>
                   <span class="category-badge" [style.background]="post()!.category?.color + '18'"
                         [style.color]="post()!.category?.color">{{ post()!.category?.name }}</span>
                 </div>
@@ -57,10 +57,10 @@ import { ReportsService } from '../../core/services/reports.service';
                 <div class="post-actions-row">
                   <button class="btn btn-ghost btn-sm" *ngIf="isAuthor()"
                           (click)="toggleSolved()">
-                    {{ post()!.is_solved ? '↩️ Desmarcar resuelto' : '✅ Marcar resuelto' }}
+                    {{ post()!.is_solved ? 'Desmarcar resuelto' : 'Marcar resuelto' }}
                   </button>
                   <button class="btn btn-ghost btn-sm report-btn" *ngIf="auth.isAuthenticated()" (click)="openReportModal(post()!.id, 'post')">
-                    🚩 Reportar
+                    Reportar
                   </button>
                 </div>
               </div>
@@ -78,7 +78,7 @@ import { ReportsService } from '../../core/services/reports.service';
                   [upvotes]="reply.upvotes" [downvotes]="reply.downvotes">
                 </app-vote-buttons>
                 <div class="reply-body">
-                  <div class="reply-accepted-badge" *ngIf="reply.is_accepted">✅ Respuesta aceptada</div>
+                  <div class="reply-accepted-badge" *ngIf="reply.is_accepted">&check; Respuesta aceptada</div>
                   <div class="markdown-content" [innerHTML]="renderMarkdown(reply.content)"></div>
                   <div class="reply-meta">
                     <span>{{ reply.author?.full_name || reply.author?.username }}</span>
@@ -102,7 +102,7 @@ import { ReportsService } from '../../core/services/reports.service';
 
                   <button class="btn btn-ghost btn-sm reply-to-btn" (click)="setReplyingTo(reply.id)"
                           *ngIf="auth.isAuthenticated()">
-                    💬 Responder
+                    Responder
                   </button>
                 </div>
               </div>
@@ -112,7 +112,7 @@ import { ReportsService } from '../../core/services/reports.service';
             <div class="reply-editor card" *ngIf="auth.isAuthenticated()">
               <h3>{{ replyingTo() ? 'Responder al comentario' : 'Tu respuesta' }}</h3>
               <button class="btn btn-ghost btn-sm" *ngIf="replyingTo()" (click)="replyingTo.set(null)">
-                ✕ Cancelar respuesta anidada
+                &times; Cancelar respuesta anidada
               </button>
               <textarea class="input-field reply-textarea" [(ngModel)]="replyContent"
                         placeholder="Escribe tu respuesta... (Markdown soportado)" rows="5"></textarea>
@@ -133,7 +133,7 @@ import { ReportsService } from '../../core/services/reports.service';
         <h3>Reportar Publicación</h3>
         
         <div class="report-warning">
-          <strong>⚠️ Advertencia:</strong> El buen uso de los reportes es obligatorio. Si realizas reportes falsos o malintencionados, tu cuenta será sancionada.
+          <strong>Advertencia:</strong> El buen uso de los reportes es obligatorio. Si realizas reportes falsos o malintencionados, tu cuenta será sancionada.
         </div>
 
         <label for="reportReason">Causa del reporte:</label>

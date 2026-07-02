@@ -17,10 +17,10 @@ import { SupabaseService } from '../../core/services/supabase.service';
       <div class="admin-layout">
         <aside class="admin-sidebar card">
           <button class="tab-btn" [class.active]="activeTab() === 'reports'" (click)="activeTab.set('reports')">
-            🚨 Reportes Pendientes
+            &excl; Reportes Pendientes
           </button>
           <button class="tab-btn" [class.active]="activeTab() === 'users'" (click)="activeTab.set('users')">
-            👥 Gestión de Usuarios
+            &equiv; Gestión de Usuarios
           </button>
         </aside>
 
@@ -28,7 +28,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
           <div *ngIf="activeTab() === 'reports'">
             <h2>Reportes Pendientes</h2>
             <div class="empty-state" *ngIf="reports().length === 0">
-              <div class="empty-state-icon">✅</div>
+              <div class="empty-state-icon">&check;</div>
               <h3>Todo en orden</h3>
               <p>No hay reportes pendientes de revisión.</p>
             </div>
@@ -53,7 +53,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
           <div *ngIf="activeTab() === 'users'">
             <h2>Gestión de Usuarios</h2>
             <div class="empty-state">
-              <div class="empty-state-icon">🚧</div>
+              <div class="empty-state-icon">&bull;</div>
               <h3>En construcción</h3>
               <p>La tabla de gestión de usuarios estará disponible pronto.</p>
             </div>

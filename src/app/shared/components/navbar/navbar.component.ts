@@ -24,7 +24,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
         </a>
         
         <div class="nav-links hide-mobile">
-          <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
+          <a routerLink="/home" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
           <a routerLink="/categories" class="nav-link" routerLinkActive="active">Categorías</a>
           <a routerLink="/materials" class="nav-link" routerLinkActive="active">Material de Estudio</a>
           <a routerLink="/calendar" class="nav-link" routerLinkActive="active">Calendario</a>
@@ -34,7 +34,7 @@ import { NotificationsService } from '../../../core/services/notifications.servi
         </div>
 
         <div class="nav-right">
-          <input class="nav-search hide-mobile" type="text" placeholder="🔍  Buscar en el foro..." [(ngModel)]="searchQuery" (keydown.enter)="onSearch()">
+          <input class="nav-search hide-mobile" type="text" placeholder="Buscar en el foro..." [(ngModel)]="searchQuery" (keydown.enter)="onSearch()">
           
           <ng-container *ngIf="auth.isAuthenticated(); else loginButtons">
             <!-- Notification Bell -->
@@ -73,27 +73,27 @@ import { NotificationsService } from '../../../core/services/notifications.servi
                 </div>
                 <div class="dropdown-section">
                   <a routerLink="/my-profile" class="dropdown-item" (click)="showUserMenu.set(false)">
-                    <span class="dropdown-icon">👤</span> Mi Perfil
+                    <span class="dropdown-icon">&mdash;</span> Mi Perfil
                   </a>
                   <a routerLink="/new-post" class="dropdown-item" (click)="showUserMenu.set(false)">
-                    <span class="dropdown-icon">✏️</span> Crear Publicación
+                    <span class="dropdown-icon">+</span> Crear Publicación
                   </a>
                   <a routerLink="/notifications" class="dropdown-item" (click)="showUserMenu.set(false)">
-                    <span class="dropdown-icon">🔔</span> Notificaciones
+                    <span class="dropdown-icon">&bull;</span> Notificaciones
                     <span class="item-badge" *ngIf="notifications.unreadCount() > 0">{{ notifications.unreadCount() }}</span>
                   </a>
                   <a routerLink="/upload-material" class="dropdown-item" (click)="showUserMenu.set(false)">
-                    <span class="dropdown-icon">📚</span> Subir Material
+                    <span class="dropdown-icon">&uarr;</span> Subir Material
                   </a>
                 </div>
                 <div class="dropdown-section" *ngIf="auth.isModerator()">
                   <a routerLink="/admin" class="dropdown-item" (click)="showUserMenu.set(false)">
-                    <span class="dropdown-icon">⚙️</span> Panel de Administración
+                    <span class="dropdown-icon">&sect;</span> Panel de Administración
                   </a>
                 </div>
                 <div class="dropdown-section">
                   <button class="dropdown-item danger" (click)="logout()">
-                    <span class="dropdown-icon">🚪</span> Cerrar Sesión
+                    <span class="dropdown-icon">&times;</span> Cerrar Sesión
                   </button>
                 </div>
               </div>

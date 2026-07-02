@@ -26,7 +26,7 @@ import { AuthService, Profile } from '../../core/services/auth.service';
               </ng-container>
             </div>
             <div class="avatar-edit-overlay">
-              <span>📷 Cambiar</span>
+              <span>Cambiar</span>
             </div>
             <input type="file" #fileInput (change)="uploadAvatar($event)" style="display: none" accept="image/*">
           </div>
@@ -42,8 +42,8 @@ import { AuthService, Profile } from '../../core/services/auth.service';
             </div>
             <p class="profile-username">&#64;{{ profile()?.username }}</p>
             <div class="profile-details">
-              <span>🎓 {{ profile()?.career }}</span>
-              <span>📅 Ingreso: {{ profile()?.year_of_entry }}</span>
+              <span>&sect; {{ profile()?.career }}</span>
+              <span>Ingreso: {{ profile()?.year_of_entry }}</span>
             </div>
           </div>
 
@@ -97,7 +97,7 @@ import { AuthService, Profile } from '../../core/services/auth.service';
         <div class="tab-content card">
           <!-- Pending: proper lists for each tab. Showing a placeholder for now to keep it simple -->
           <div class="empty-state">
-            <div class="empty-state-icon">🚧</div>
+            <div class="empty-state-icon">&bull;</div>
             <h3>Sección en construcción</h3>
             <p>Pronto podrás ver tu historial completo de contribuciones aquí.</p>
           </div>

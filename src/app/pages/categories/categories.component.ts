@@ -65,9 +65,9 @@ export class CategoriesComponent {
 
   getCatEmoji(slug: string): string {
     const map: Record<string, string> = {
-      'ramos': '📚', 'docentes': '👨‍🏫', 'becas': '🎓',
-      'tramites': '📋', 'vida-universitaria': '🏛️', 'general': '💡',
+      'ramos': 'R', 'docentes': 'D', 'becas': 'B',
+      'tramites': 'T', 'vida-universitaria': 'V', 'general': 'G',
     };
-    return map[slug] || '📌';
+    return map[slug] || '&middot;';
   }
 }

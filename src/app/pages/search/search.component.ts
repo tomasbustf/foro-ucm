@@ -24,7 +24,7 @@ import { PostsService, Post } from '../../core/services/posts.service';
         <app-post-card *ngFor="let post of posts()" [post]="post"></app-post-card>
         
         <div class="empty-state card" *ngIf="posts().length === 0">
-          <div class="empty-state-icon">🔍</div>
+          <img src="assets/UCMito sospecha mirada (philip j. fry).png" alt="Ucmito busca" class="empty-state-img">
           <h3>No encontramos resultados para "{{ query() }}"</h3>
           <p>Revisa la ortografía o intenta con palabras más generales.</p>
         </div>

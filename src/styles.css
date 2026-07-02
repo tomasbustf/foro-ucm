@@ -36,6 +36,7 @@
 
   /* Typography */
   --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Georgia', 'Times New Roman', serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Spacing */
@@ -478,6 +479,89 @@ input, textarea, select {
 .empty-state p {
   color: var(--color-text-muted);
   max-width: 400px;
+}
+
+/* ========== UCMITO IMAGES ========== */
+.empty-state-img {
+  height: 120px;
+  width: auto;
+  margin-bottom: var(--space-md);
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+  animation: float 4s ease-in-out infinite, scaleIn 0.5s ease-out forwards;
+}
+
+.ucmito-side {
+  position: absolute;
+  left: -130px;
+  bottom: -20px;
+  width: 160px;
+  z-index: 10;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+  animation: float 4s ease-in-out infinite, slideInLeft 0.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@media(max-width: 900px) {
+  .ucmito-side { display: none; }
+}
+
+/* ========== UCMITO GUIDE ========== */
+.ucmito-guide {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 9999;
+  animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.ucmito-img {
+  width: 90px;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.ucmito-img:hover {
+  transform: scale(1.05) translateY(-5px);
+}
+
+.ucmito-speech {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 12px 12px 0 12px;
+  box-shadow: var(--shadow-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  position: relative;
+  max-width: 220px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.ucmito-speech::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+  border-width: 8px 8px 0 0;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.05));
+}
+
+[data-theme="dark"] .ucmito-speech {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+[data-theme="dark"] .ucmito-speech::after {
+  border-color: var(--color-surface) transparent transparent transparent;
 }
 
 /* ========== RESPONSIVE ========== */

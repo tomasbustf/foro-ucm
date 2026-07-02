@@ -39,7 +39,7 @@ import { CategoriesService, Category } from '../../core/services/categories.serv
           <app-post-card *ngFor="let post of posts()" [post]="post"></app-post-card>
           
           <div class="empty-state card" *ngIf="posts().length === 0">
-            <div class="empty-state-icon">📝</div>
+            <img src="assets/ucmito atencion dedo arriba.png" alt="Ucmito atención" class="empty-state-img">
             <h3>No hay publicaciones en esta categoría</h3>
             <p>¡Sé el primero en iniciar una conversación!</p>
           </div>

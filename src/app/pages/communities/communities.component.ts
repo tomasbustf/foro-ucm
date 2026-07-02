@@ -42,10 +42,10 @@ interface Community {
 
       <!-- Communities Grid -->
       <div class="communities-grid" *ngIf="!loading()">
-        <div class="community-card card" *ngFor="let com of filteredCommunities()">
+        <a class="community-card card" *ngFor="let com of filteredCommunities()" [routerLink]="['/community', com.slug]" style="text-decoration:none; color:inherit;">
           <!-- Color Header -->
           <div class="com-cover" [style.background]="com.color">
-            <button class="btn btn-sm btn-postular" (click)="joinCommunity(com)">
+            <button class="btn btn-sm btn-postular" (click)="joinCommunity(com); $event.preventDefault(); $event.stopPropagation()">
               {{ com.is_private ? 'Solicitar Ingreso' : 'Unirse' }}
             </button>
           </div>
@@ -62,15 +62,15 @@ interface Community {
               <span class="stat-lbl">Actividades</span>
             </div>
             <div class="stat">
-              <span class="stat-val">-</span>
+              <span class="stat-val">&mdash;</span>
               <span class="stat-lbl">Última Actividad</span>
             </div>
             <div class="stat">
-              <span class="stat-val">👥 {{ com.member_count || 0 }}</span>
+              <span class="stat-val">{{ com.member_count || 0 }}</span>
               <span class="stat-lbl">Integrantes</span>
             </div>
           </div>
-        </div>
+        </a>
       </div>
       
       <div class="loading-state" *ngIf="loading()">

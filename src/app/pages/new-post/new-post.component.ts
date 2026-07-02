@@ -50,7 +50,7 @@ import { AuthService } from '../../core/services/auth.service';
               <button type="button" class="btn-ghost btn-sm" (click)="insertMarkdown('\\n1. ', '')" title="Lista Numerada">1.</button>
               <span class="toolbar-sep"></span>
               <button type="button" class="btn-ghost btn-sm" (click)="insertMarkdown('\`', '\`')" title="Código Inline">&lt;/&gt;</button>
-              <button type="button" class="btn-ghost btn-sm" (click)="insertMarkdown('\\n\`\`\`\\n', '\\n\`\`\`\\n')" title="Bloque de Código">💻</button>
+              <button type="button" class="btn-ghost btn-sm" (click)="insertMarkdown('\\n\`\`\`\\n', '\\n\`\`\`\\n')" title="Bloque de Código">&lt;/&gt;</button>
             </div>
             <textarea id="content" class="input-field markdown-textarea" [(ngModel)]="content" name="content"
                       placeholder="Escribe el contenido de tu publicación (puedes usar Markdown)..."
@@ -62,7 +62,7 @@ import { AuthService } from '../../core/services/auth.service';
             <label for="tags">Etiquetas (Opcional)</label>
             <div class="tags-input-container input-field">
               <span class="tag" *ngFor="let tag of tags; let i = index">
-                {{ tag }} <button type="button" class="remove-tag" (click)="removeTag(i)">✕</button>
+                {{ tag }} <button type="button" class="remove-tag" (click)="removeTag(i)">&times;</button>
               </span>
               <input type="text" id="tags" class="tag-input" [(ngModel)]="currentTag" name="currentTag"
                      placeholder="Ej: ICC-301, Cálculo (Presiona Enter)"

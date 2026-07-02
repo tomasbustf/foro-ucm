@@ -42,7 +42,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
         <div class="posts-list" *ngIf="!loading()">
           <app-post-card *ngFor="let post of posts()" [post]="post"></app-post-card>
           <div class="empty-state" *ngIf="posts().length === 0">
-            <div class="empty-state-icon">📝</div>
+            <div class="empty-state-icon">&#9998;</div>
             <h3>No hay publicaciones aún</h3>
             <p>¡Sé el primero en publicar una pregunta o compartir algo!</p>
             <a routerLink="/new-post" class="btn btn-primary" style="margin-top: 16px">Crear publicación</a>
@@ -68,7 +68,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
       <!-- Right Sidebar -->
       <aside class="sidebar-right hide-mobile">
         <div class="sidebar-card card">
-          <h3 class="sidebar-title">🏆 Top Usuarios</h3>
+          <h3 class="sidebar-title">Top Usuarios</h3>
           <div class="top-user" *ngFor="let u of topUsers()">
             <div class="top-avatar">{{ (u.full_name || u.username)?.charAt(0)?.toUpperCase() }}</div>
             <div class="top-info">
@@ -80,7 +80,7 @@ import { SupabaseService } from '../../core/services/supabase.service';
         </div>
 
         <div class="sidebar-card card">
-          <h3 class="sidebar-title">👁️ Más Vistos</h3>
+          <h3 class="sidebar-title">Más Vistos</h3>
           <a *ngFor="let p of topViewed()" [routerLink]="['/post', p.id]" class="trending-post">
             <span class="trending-title">{{ p.title }}</span>
             <span class="trending-views">{{ p.view_count }} vistas</span>

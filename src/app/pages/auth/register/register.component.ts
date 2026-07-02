@@ -21,7 +21,8 @@ const CAREERS = [
   imports: [CommonModule, FormsModule, RouterModule],
   template: `
     <div class="auth-page">
-      <div class="auth-card card" *ngIf="!success() && !alreadyRegistered()">
+      <div class="auth-card card" *ngIf="!success() && !alreadyRegistered()" style="position: relative;">
+        <img src="assets/ucmito apunta dedo diagonal-31.png" alt="Ucmito" class="ucmito-side hide-mobile">
         <div class="auth-header">
           <img src="assets/logo-ucm.png" alt="Logo UCM" class="logo-icon" style="background: transparent;">
           <h1>Crear Cuenta</h1>
@@ -63,22 +64,22 @@ const CAREERS = [
                      name="password" placeholder="Mínimo 6 caracteres" required minlength="6"
                      (input)="error.set('')">
               <button type="button" class="eye-toggle" (click)="showPassword = !showPassword" tabindex="-1">
-                {{ showPassword ? '🙈' : '👁️' }}
+                {{ showPassword ? 'Ocultar' : 'Mostrar' }}
               </button>
             </div>
                    
             <ul class="password-rules" *ngIf="password">
               <li [class.valid]="hasMinLength">
-                <span class="rule-icon">{{ hasMinLength ? '✓' : '○' }}</span> Mínimo 6 caracteres
+                <span class="rule-icon">{{ hasMinLength ? '&check;' : '&cir;' }}</span> Mínimo 6 caracteres
               </li>
               <li [class.valid]="hasUpperCase">
-                <span class="rule-icon">{{ hasUpperCase ? '✓' : '○' }}</span> Al menos una mayúscula
+                <span class="rule-icon">{{ hasUpperCase ? '&check;' : '&cir;' }}</span> Al menos una mayúscula
               </li>
               <li [class.valid]="hasNumber">
-                <span class="rule-icon">{{ hasNumber ? '✓' : '○' }}</span> Al menos un número
+                <span class="rule-icon">{{ hasNumber ? '&check;' : '&cir;' }}</span> Al menos un número
               </li>
               <li [class.valid]="hasSpecialChar">
-                <span class="rule-icon">{{ hasSpecialChar ? '✓' : '○' }}</span> Al menos un carácter especial
+                <span class="rule-icon">{{ hasSpecialChar ? '&check;' : '&cir;' }}</span> Al menos un carácter especial
               </li>
             </ul>
           </div>
@@ -90,11 +91,11 @@ const CAREERS = [
                      name="confirmPassword" placeholder="Reescribe tu contraseña" required
                      [class.input-error]="confirmPassword && password !== confirmPassword">
               <button type="button" class="eye-toggle" (click)="showConfirmPassword = !showConfirmPassword" tabindex="-1">
-                {{ showConfirmPassword ? '🙈' : '👁️' }}
+                {{ showConfirmPassword ? 'Ocultar' : 'Mostrar' }}
               </button>
             </div>
             <span class="error-text" *ngIf="confirmPassword && password !== confirmPassword">Las contraseñas no coinciden</span>
-            <span class="match-text" *ngIf="confirmPassword && password === confirmPassword">✓ Las contraseñas coinciden</span>
+            <span class="match-text" *ngIf="confirmPassword && password === confirmPassword">&check; Las contraseñas coinciden</span>
           </div>
 
           <p class="error-text" *ngIf="error() && !alreadyRegistered()">{{ error() }}</p>
@@ -115,7 +116,7 @@ const CAREERS = [
 
       <!-- Already registered message -->
       <div class="auth-card card already-registered-card" *ngIf="alreadyRegistered()">
-        <div class="already-registered-icon">⚠️</div>
+        <div class="already-registered-icon">&excl;</div>
         <h2>Este correo ya está registrado</h2>
         <p>La cuenta <strong>{{ fullEmail }}</strong> ya existe en el Foro UCM.
            Si ya te registraste, puedes iniciar sesión directamente.</p>
@@ -125,7 +126,7 @@ const CAREERS = [
 
       <!-- Success message (Email Confirmation Enabled) -->
       <div class="auth-card card success-card" *ngIf="success() === 'email'">
-        <div class="success-icon">📬</div>
+        <div class="success-icon">&check;</div>
         <h2>¡Revisa tu correo!</h2>
         <p>Te enviamos un email de verificación a <strong>{{ fullEmail }}</strong>.
            Haz clic en el enlace para activar tu cuenta.</p>
@@ -134,10 +135,10 @@ const CAREERS = [
 
       <!-- Success message (Direct Login / Option A) -->
       <div class="auth-card card success-card" *ngIf="success() === 'direct'">
-        <div class="success-icon">🎉</div>
+        <div class="success-icon">&check;</div>
         <h2>¡Registro Exitoso!</h2>
         <p>Tu cuenta <strong>{{ fullEmail }}</strong> fue creada y ya has iniciado sesión automáticamente.</p>
-        <a routerLink="/" class="btn btn-primary btn-lg full-width">Entrar al Foro</a>
+        <a routerLink="/home" class="btn btn-primary btn-lg full-width">Entrar al Foro</a>
       </div>
     </div>
   `,
@@ -267,7 +268,7 @@ export class RegisterComponent {
       if (result.session) {
         this.success.set('direct');
         // Redirigir al inicio después de 3 segundos
-        setTimeout(() => this.router.navigate(['/']), 3000);
+        setTimeout(() => this.router.navigate(['/home']), 3000);
       } else {
         this.success.set('email');
       }

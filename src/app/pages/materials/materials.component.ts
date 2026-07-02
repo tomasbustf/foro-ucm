@@ -87,8 +87,8 @@ import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
               </div>
               <div class="mat-actions">
                 <div class="mat-stats">
-                  <span title="Descargas">⬇️ {{ mat.download_count }}</span>
-                  <span title="Votos">⭐ {{ mat.upvotes }}</span>
+                  <span title="Descargas">&darr; {{ mat.download_count }}</span>
+                  <span title="Votos">&starf; {{ mat.upvotes }}</span>
                 </div>
                 <button class="btn btn-primary btn-sm" (click)="download(mat)">Descargar</button>
               </div>
@@ -96,7 +96,7 @@ import { FileSizePipe } from '../../shared/pipes/file-size.pipe';
           </div>
 
           <div class="empty-state card" *ngIf="!loading() && materials().length === 0">
-            <div class="empty-state-icon">📂</div>
+            <div class="empty-state-icon">&bull;</div>
             <h3>No se encontraron materiales</h3>
             <p>Intenta ajustar tus filtros o sé el primero en aportar material para esta búsqueda.</p>
           </div>
@@ -221,14 +221,14 @@ export class MaterialsComponent implements OnInit {
   }
 
   getFileIcon(type: string): string {
-    if (!type) return '📄';
-    if (type.includes('pdf')) return '📕';
-    if (type.includes('word') || type.includes('document')) return '📘';
-    if (type.includes('excel') || type.includes('spreadsheet')) return '📗';
-    if (type.includes('powerpoint') || type.includes('presentation')) return '📙';
-    if (type.includes('zip') || type.includes('rar') || type.includes('compressed')) return '🗜️';
-    if (type.includes('image')) return '🖼️';
-    return '📄';
+    if (!type) return 'DOC';
+    if (type.includes('pdf')) return 'PDF';
+    if (type.includes('word') || type.includes('document')) return 'DOC';
+    if (type.includes('excel') || type.includes('spreadsheet')) return 'XLS';
+    if (type.includes('powerpoint') || type.includes('presentation')) return 'PPT';
+    if (type.includes('zip') || type.includes('rar') || type.includes('compressed')) return 'ZIP';
+    if (type.includes('image')) return 'IMG';
+    return 'DOC';
   }
 
   async download(mat: StudyMaterial) {

@@ -12,8 +12,8 @@ import { Post } from '../../../core/services/posts.service';
     <a [routerLink]="['/post', post.id]" class="post-card card card-interactive">
       <!-- Pinned / Solved badges -->
       <div class="post-badges" *ngIf="post.is_pinned || post.is_solved">
-        <span class="badge pinned" *ngIf="post.is_pinned">📌 Fijado</span>
-        <span class="badge solved" *ngIf="post.is_solved">✅ Resuelto</span>
+        <span class="badge pinned" *ngIf="post.is_pinned">&#9650; Fijado</span>
+        <span class="badge solved" *ngIf="post.is_solved">&check; Resuelto</span>
       </div>
 
       <div class="post-card-body">
@@ -81,7 +81,7 @@ import { Post } from '../../../core/services/posts.service';
     .vote-label { font-size: 0.65rem; color: var(--color-text-muted); text-transform: uppercase; }
     .post-content { flex: 1; min-width: 0; }
     .post-title {
-      font-size: 1.05rem; font-weight: 700; margin-bottom: var(--space-xs);
+      font-size: 1.05rem; font-weight: 700; margin-bottom: var(--space-xs); font-family: var(--font-heading);
       line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2;
       -webkit-box-orient: vertical; overflow: hidden;
     }

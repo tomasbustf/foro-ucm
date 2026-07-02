@@ -18,24 +18,6 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
           <div class="hero-badge">Plataforma Estudiantil Oficial</div>
           <h1>Tu espacio de <em>conocimiento compartido</em> en la UCM</h1>
           <p>Consulta, colabora y aprende junto a tu comunidad. Encuentra respuestas sobre ramos, docentes, becas y trámites en un solo lugar centralizado y confiable.</p>
-          <div class="hero-stats">
-            <div class="stat-item">
-              <div class="stat-num">{{ stats().posts }}</div>
-              <div class="stat-label">Publicaciones</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-num">{{ stats().users }}</div>
-              <div class="stat-label">Estudiantes</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-num">{{ stats().materials }}</div>
-              <div class="stat-label">Materiales</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-num">97%</div>
-              <div class="stat-label">Resueltos</div>
-            </div>
-          </div>
           <div class="hero-btns">
             <a routerLink="/home" class="btn-hero-primary">Explorar el foro</a>
             <a routerLink="/materials" class="btn-hero-secondary">Ver material de estudio</a>
@@ -87,8 +69,8 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
                 <span>{{ post.created_at | timeAgo }}</span>
                 <div class="post-stats">
                   <span class="stat-pill">▲ {{ post.upvotes - post.downvotes }}</span>
-                  <span class="stat-pill">💬 {{ post.reply_count }}</span>
-                  <span class="stat-pill">👁 {{ post.view_count }}</span>
+                  <span class="stat-pill">&bull; {{ post.reply_count }}</span>
+                  <span class="stat-pill">{{ post.view_count }} vistas</span>
                 </div>
               </div>
             </a>
@@ -97,20 +79,20 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
           <!-- SIDEBAR -->
           <div>
             <div class="sidebar-card">
-              <div class="sidebar-card-header">🏆 Top colaboradores</div>
+              <div class="sidebar-card-header">Top colaboradores</div>
               <div class="sidebar-card-body">
                 <div class="user-item" *ngFor="let user of topUsers()">
                   <div class="avatar-sm">{{ (user.full_name || user.username)?.charAt(0)?.toUpperCase() }}</div>
                   <div>
                     <div class="user-name">{{ user.full_name || user.username }}</div>
-                    <div class="user-rep"><span class="rep-badge">⭐ {{ user.reputation }} pts</span> · {{ auth.getReputationLevel(user.reputation).label }}</div>
+                    <div class="user-rep"><span class="rep-badge">{{ user.reputation }} pts</span> &middot; {{ auth.getReputationLevel(user.reputation).label }}</div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="sidebar-card">
-              <div class="sidebar-card-header">📁 Material reciente</div>
+              <div class="sidebar-card-header">Material reciente</div>
               <div class="sidebar-card-body">
                 <a [routerLink]="['/materials']" class="material-item" *ngFor="let mat of recentMaterials()" style="text-decoration:none">
                   <div class="file-icon" [ngClass]="getIconClass(mat.file_type)">{{ getIconText(mat.file_type) }}</div>
@@ -123,7 +105,7 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
             </div>
 
             <div class="sidebar-card">
-              <div class="sidebar-card-header" style="background:#C8102E;">📢 Avisos UCM</div>
+              <div class="sidebar-card-header" style="background:#C8102E;">Avisos UCM</div>
               <div class="sidebar-card-body">
                 <div style="font-size: 11.5px; color: #333; padding: 4px 0; border-bottom: 0.5px solid #f0f2f5; margin-bottom: 8px; padding-bottom: 8px;">
                   <strong style="color:#1B3A6B;">Evaluación Docente</strong><br>
@@ -180,7 +162,7 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
     
     /* HERO */
     .hero {
-      background: linear-gradient(135deg, #0F254A 0%, #1B3A6B 60%, #234A87 100%);
+      background: linear-gradient(135deg, rgba(15,37,74,0.88) 0%, rgba(27,58,107,0.85) 60%, rgba(35,74,135,0.82) 100%), url('/assets/Edificios-CES-UCM-2-1-2000x1200.jpg') center/cover no-repeat;
       padding: 120px 24px 52px; color: white; position: relative; overflow: hidden;
     }
     .hero::before {
@@ -197,13 +179,6 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
     .hero h1 { font-size: 28px; font-weight: 700; line-height: 1.25; margin-bottom: 12px; }
     .hero h1 em { color: #F5A623; font-style: normal; }
     .hero p { font-size: 14px; opacity: 0.85; line-height: 1.65; margin-bottom: 24px; max-width: 500px; }
-    .hero-stats {
-      display: flex; gap: 28px; margin-bottom: 28px; padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.15);
-    }
-    .stat-item { text-align: center; }
-    .stat-num { font-size: 24px; font-weight: 700; color: #F5A623; }
-    .stat-label { font-size: 10px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
     .hero-btns { display: flex; gap: 10px; }
     .btn-hero-primary {
       background: #C8102E; color: white; border: none; padding: 11px 24px;
@@ -302,7 +277,6 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
   `]
 })
 export class LandingComponent implements OnInit {
-  stats = signal({ posts: 0, users: 0, materials: 0 });
   recentPosts = signal<any[]>([]);
   recentMaterials = signal<any[]>([]);
   topUsers = signal<any[]>([]);
@@ -314,16 +288,6 @@ export class LandingComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // Stats
-    const [postsCount, usersCount, materialsCount] = await Promise.all([
-      this.supabase.client.from('posts').select('id', { count: 'exact', head: true }),
-      this.supabase.client.from('profiles').select('id', { count: 'exact', head: true }),
-      this.supabase.client.from('study_materials').select('id', { count: 'exact', head: true }),
-    ]);
-    this.stats.set({
-      posts: postsCount.count || 0, users: usersCount.count || 0, materials: materialsCount.count || 0,
-    });
-
     // Recent Posts
     const { data: posts } = await this.supabase.client
       .from('posts')
@@ -351,10 +315,10 @@ export class LandingComponent implements OnInit {
 
   getCatEmoji(slug: string): string {
     const map: Record<string, string> = {
-      'ramos': '📚', 'docentes': '👨‍🏫', 'becas': '🎓',
-      'tramites': '📋', 'vida-universitaria': '🏛️', 'general': '💬',
+      'ramos': 'R', 'docentes': 'D', 'becas': 'B',
+      'tramites': 'T', 'vida-universitaria': 'V', 'general': 'G',
     };
-    return map[slug] || '📌';
+    return map[slug] || '·';
   }
 
   getIconClass(type: string): string {

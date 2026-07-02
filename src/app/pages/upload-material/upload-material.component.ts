@@ -26,14 +26,14 @@ import { AuthService } from '../../core/services/auth.service';
                    accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,.rar">
             
             <ng-container *ngIf="!selectedFile">
-              <div class="drop-icon">📁</div>
+              <div class="drop-icon">&uarr;</div>
               <h3>Haz clic o arrastra tu archivo aquí</h3>
               <p>Formatos soportados: PDF, Word, Excel, PPT, ZIP (Max 20MB)</p>
             </ng-container>
             
             <ng-container *ngIf="selectedFile">
               <div class="file-preview">
-                <div class="drop-icon">📄</div>
+                <div class="drop-icon">&bull;</div>
                 <div class="file-info">
                   <div class="file-name">{{ selectedFile.name }}</div>
                   <div class="file-size">{{ formatSize(selectedFile.size) }}</div>

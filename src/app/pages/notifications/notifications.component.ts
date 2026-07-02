@@ -18,14 +18,14 @@ import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
           </div>
           <button class="btn btn-outline btn-sm" (click)="notificationsService.markAllAsRead()"
                   *ngIf="notificationsService.unreadCount() > 0">
-            ✅ Marcar todas como leídas
+            &check; Marcar todas como leídas
           </button>
         </div>
       </div>
 
       <div class="notifs-list card">
         <div class="empty-state" *ngIf="notificationsService.notifications().length === 0">
-          <div class="empty-state-icon">📭</div>
+          <div class="empty-state-icon">&bull;</div>
           <h3>No tienes notificaciones</h3>
           <p>Te avisaremos cuando alguien interactúe contigo.</p>
         </div>
@@ -80,8 +80,8 @@ export class NotificationsComponent implements OnInit {
 
   getIcon(type: string): string {
     const icons: Record<string, string> = {
-      'reply': '💬', 'vote': '⭐', 'accepted': '✅', 'mention': '🔔'
+      'reply': '&crarr;', 'vote': '&starf;', 'accepted': '&check;', 'mention': '&bull;'
     };
-    return icons[type] || '🔔';
+    return icons[type] || '&bull;';
   }
 }

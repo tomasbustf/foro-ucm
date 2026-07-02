@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, moderatorGuard } from './core/guards/auth.guard';
+import { authGuard, moderatorGuard, noAuthGuard } from './core/guards/auth.guard';
 
 // Import components directly to avoid lazy loading issues in this simplified setup
 import { LandingComponent } from './pages/landing/landing.component';
@@ -15,6 +15,7 @@ import { UploadMaterialComponent } from './pages/upload-material/upload-material
 import { NewsComponent } from './pages/news/news.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { CommunitiesComponent } from './pages/communities/communities.component';
+import { CommunityDetailComponent } from './pages/community-detail/community-detail.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { SearchComponent } from './pages/search/search.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
@@ -26,9 +27,9 @@ import { TermsComponent } from './pages/legal/terms/terms.component';
 import { ConductRulesComponent } from './pages/legal/conduct-rules/conduct-rules.component';
 
 export const routes: Routes = [
-  { path: '', component: LandingComponent },
-  { path: 'auth/login', component: LoginComponent },
-  { path: 'auth/register', component: RegisterComponent },
+  { path: '', component: LandingComponent, canActivate: [authGuard] },
+  { path: 'auth/login', component: LoginComponent, canActivate: [noAuthGuard] },
+  { path: 'auth/register', component: RegisterComponent, canActivate: [noAuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   { path: 'post/:id', component: PostDetailComponent, canActivate: [authGuard] },
   { path: 'new-post', component: NewPostComponent, canActivate: [authGuard] },
@@ -43,9 +44,11 @@ export const routes: Routes = [
   { path: 'news', component: NewsComponent, canActivate: [authGuard] },
   { path: 'calendar', component: CalendarComponent, canActivate: [authGuard] },
   { path: 'communities', component: CommunitiesComponent, canActivate: [authGuard] },
+  { path: 'community/:slug', component: CommunityDetailComponent, canActivate: [authGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [authGuard, moderatorGuard] },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'terms-and-conditions', component: TermsComponent },
   { path: 'conduct-rules', component: ConductRulesComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'auth/login' }
 ];
+

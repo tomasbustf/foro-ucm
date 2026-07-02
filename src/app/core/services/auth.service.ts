@@ -108,7 +108,7 @@ export class AuthService {
     await this.supabase.client.auth.signOut();
     this._user.set(null);
     this._profile.set(null);
-    this.router.navigate(['/']);
+    this.router.navigate(['/auth/login']);
   }
 
   async resetPassword(email: string) {
@@ -135,9 +135,9 @@ export class AuthService {
   }
 
   getReputationLevel(reputation: number): { label: string; emoji: string; color: string } {
-    if (reputation >= 500) return { label: 'Experto UCM', emoji: '🏆', color: '#F5A623' };
-    if (reputation >= 200) return { label: 'Referente', emoji: '⭐', color: '#3B82F6' };
-    if (reputation >= 50) return { label: 'Colaborador', emoji: '📖', color: '#10B981' };
-    return { label: 'Estudiante Nuevo', emoji: '🌱', color: '#6B7280' };
+    if (reputation >= 500) return { label: 'Experto UCM', emoji: '★', color: '#F5A623' };
+    if (reputation >= 200) return { label: 'Referente', emoji: '◆', color: '#3B82F6' };
+    if (reputation >= 50) return { label: 'Colaborador', emoji: '■', color: '#10B981' };
+    return { label: 'Estudiante Nuevo', emoji: '●', color: '#6B7280' };
   }
 }

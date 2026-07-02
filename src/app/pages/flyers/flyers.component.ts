@@ -50,14 +50,14 @@ interface Flyer {
               </div>
               <span class="user-name">{{ flyer.profiles?.full_name || flyer.profiles?.username }}</span>
             </div>
-            <button class="btn btn-icon delete-btn" *ngIf="flyer.user_id === auth.profile()?.id" (click)="deleteFlyer(flyer.id)" title="Eliminar">🗑️</button>
+            <button class="btn btn-icon delete-btn" *ngIf="flyer.user_id === auth.profile()?.id" (click)="deleteFlyer(flyer.id)" title="Eliminar">&times;</button>
           </div>
         </div>
       </div>
 
       <!-- Empty State -->
       <div class="empty-state card" *ngIf="flyers().length === 0 && !loading()">
-        <div class="empty-state-icon">📌</div>
+        <img src="assets/ucmito muestra lateral.png" alt="Ucmito muestra" class="empty-state-img">
         <h3>No hay afiches aún</h3>
         <p>¡Sé el primero en colgar un afiche en el diario mural!</p>
       </div>
