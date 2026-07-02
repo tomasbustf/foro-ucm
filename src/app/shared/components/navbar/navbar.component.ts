@@ -104,9 +104,38 @@ import { NotificationsService } from '../../../core/services/notifications.servi
             <a routerLink="/auth/login" class="btn-login">Ingresar</a>
             <a routerLink="/auth/register" class="btn-register hide-mobile">Registrarse</a>
           </ng-template>
+
+          <!-- Mobile Menu Button -->
+          <button class="btn-icon mobile-menu-btn" (click)="toggleMobileMenu()" title="Menú">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
         </div>
       </nav>
       <div class="red-line"></div>
+      
+      <!-- MOBILE MENU OVERLAY -->
+      <div class="mobile-menu-overlay" *ngIf="showMobileMenu()" (click)="toggleMobileMenu()"></div>
+      <div class="mobile-menu-drawer" [class.open]="showMobileMenu()">
+        <div class="mobile-menu-header">
+          <h2>Menú</h2>
+          <button class="close-btn" (click)="toggleMobileMenu()">&times;</button>
+        </div>
+        <div class="mobile-menu-links">
+          <a routerLink="/home" (click)="toggleMobileMenu()">Inicio</a>
+          <a routerLink="/categories" (click)="toggleMobileMenu()">Categorías</a>
+          <a routerLink="/materials" (click)="toggleMobileMenu()">Material de Estudio</a>
+          <a routerLink="/calendar" (click)="toggleMobileMenu()">Calendario</a>
+          <a routerLink="/flyers" (click)="toggleMobileMenu()">Diario Mural</a>
+          <a routerLink="/news" (click)="toggleMobileMenu()">Noticias</a>
+          <a routerLink="/communities" (click)="toggleMobileMenu()">Comunidades</a>
+          
+          <ng-container *ngIf="!auth.isAuthenticated()">
+            <div class="mobile-menu-divider"></div>
+            <a routerLink="/auth/login" (click)="toggleMobileMenu()">Ingresar</a>
+            <a routerLink="/auth/register" (click)="toggleMobileMenu()">Registrarse</a>
+          </ng-container>
+        </div>
+      </div>
     </header>
   `,
   styles: [`
@@ -202,6 +231,28 @@ import { NotificationsService } from '../../../core/services/notifications.servi
       border-radius: 10px; min-width: 18px; text-align: center;
     }
 
+    /* MOBILE MENU */
+    .mobile-menu-btn { display: none; background: transparent; border: none; cursor: pointer; color: #1B3A6B; }
+    @media(max-width: 768px) {
+      .mobile-menu-btn { display: flex; align-items: center; justify-content: center; margin-left: 8px;}
+    }
+
+    .mobile-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1050; backdrop-filter: blur(2px); }
+    .mobile-menu-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 260px;
+      background: white; z-index: 1100; box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+      transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex; flex-direction: column;
+    }
+    .mobile-menu-drawer.open { transform: translateX(0); }
+    .mobile-menu-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #e2e8f0; }
+    .mobile-menu-header h2 { font-size: 1.2rem; font-weight: 700; color: #1B3A6B; margin: 0; }
+    .mobile-menu-header .close-btn { background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: #4A5568; line-height: 1; padding: 0;}
+    .mobile-menu-links { display: flex; flex-direction: column; padding: 10px 0; overflow-y: auto; }
+    .mobile-menu-links a { padding: 12px 20px; font-size: 1rem; color: #4A5568; text-decoration: none; font-weight: 500; border-left: 4px solid transparent; transition: all 0.2s; }
+    .mobile-menu-links a:hover, .mobile-menu-links a:active { background: #f8fafc; color: #1B3A6B; border-left-color: #C8102E; }
+    .mobile-menu-divider { height: 1px; background: #e2e8f0; margin: 10px 0; }
+
     @media(max-width:768px) {
       .hide-mobile { display: none !important; }
       .navbar { padding: 0 16px; }
@@ -213,6 +264,7 @@ export class NavbarComponent {
   searchQuery = '';
   scrolled = signal(false);
   showUserMenu = signal(false);
+  showMobileMenu = signal(false);
 
   constructor(
     public auth: AuthService,
@@ -229,6 +281,10 @@ export class NavbarComponent {
 
   toggleUserMenu() {
     this.showUserMenu.update(v => !v);
+  }
+
+  toggleMobileMenu() {
+    this.showMobileMenu.update(v => !v);
   }
 
   onSearch() {
