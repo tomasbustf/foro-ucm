@@ -1,0 +1,203 @@
+<div class="materials-page container">
+  <div class="page-header">
+    <h1>Material de Estudio</h1>
+    <p>Encuentra apuntes, pruebas pasadas y libros compartidos por la comunidad</p>
+  </div>
+
+  <div class="materials-layout">
+    <!-- Filters Sidebar -->
+    <aside class="filters-sidebar card">
+      <h3>Filtros</h3>
+
+      <div class="filter-group">
+        <label>Buscar ramo o archivo</label>
+        <input type="text" class="input-field" [(ngModel)]="filters.search"
+               (ngModelChange)="onFilterChange()" placeholder="Ej: Cálculo, Física...">
+      </div>
+
+      <div class="filter-group">
+        <label>Carrera</label>
+        <select class="input-field" [(ngModel)]="filters.career" (ngModelChange)="onFilterChange()">
+          <option value="">Todas las carreras</option>
+          <option *ngFor="let c of careers" [value]="c">{{ c }}</option>
+        </select>
+      </div>
+
+      <div class="filter-group row-group">
+        <div class="half">
+          <label>Año</label>
+          <select class="input-field" [(ngModel)]="filters.year" (ngModelChange)="onFilterChange()">
+            <option value="">Todos</option>
+            <option *ngFor="let y of [1,2,3,4,5,6]" [value]="y">{{ y }}º</option>
+          </select>
+        </div>
+        <div class="half">
+          <label>Semestre</label>
+          <select class="input-field" [(ngModel)]="filters.semester" (ngModelChange)="onFilterChange()">
+            <option value="">Ambos</option>
+            <option value="1">1º Sem</option>
+            <option value="2">2º Sem</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-outline full-width" (click)="resetFilters()">Limpiar Filtros</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="materials-main">
+      <div class="actions-bar">
+        <div class="results-count">{{ totalCount() }} materiales encontrados</div>
+        <div class="actions-right">
+          <select class="input-field sort-select" [(ngModel)]="sortBy" (ngModelChange)="onSortChange()">
+            <option value="rating">Mejor valorados</option>
+            <option value="recent">Más recientes</option>
+            <option value="downloads">Más descargados</option>
+          </select>
+          <a routerLink="/upload-material" class="btn btn-primary" *ngIf="auth.isAuthenticated()">
+            + Subir Material
+          </a>
+        </div>
+      </div>
+
+      <!-- Materials List -->
+      <div class="materials-grid" *ngIf="!loading()">
+        <div class="material-card card card-interactive" *ngFor="let mat of materials()" (click)="openPreview(mat)">
+          <!-- Vote Column -->
+          <div class="vote-column">
+            <button class="vote-btn" [class.active]="getUserVote(mat.id) === 1"
+                    (click)="vote(mat, 1, $event)" title="Me sirvió">
+              ▲
+            </button>
+            <span class="vote-count" [class.positive]="mat.rating_sum > 0" [class.negative]="mat.rating_sum < 0">
+              {{ mat.rating_sum || 0 }}
+            </span>
+            <button class="vote-btn vote-down" [class.active]="getUserVote(mat.id) === -1"
+                    (click)="vote(mat, -1, $event)" title="No me sirvió">
+              ▼
+            </button>
+          </div>
+          <!-- File Icon -->
+          <div class="mat-icon">{{ getFileIcon(mat.file_type) }}</div>
+          <!-- Info -->
+          <div class="mat-info">
+            <h3 class="mat-title">{{ mat.title }}</h3>
+            <div class="mat-subject">
+              <span class="subject-tag">{{ mat.subject_code || mat.subject }}</span>
+              <span class="career-text">{{ mat.career }}</span>
+              <span class="file-type-badge">{{ getFileTypeLabel(mat.file_type) }}</span>
+            </div>
+            <p class="mat-desc" *ngIf="mat.description">{{ mat.description }}</p>
+            <div class="mat-meta">
+              <span>Por {{ mat.uploader?.full_name || mat.uploader?.username || 'Usuario' }}</span>
+              <span>·</span>
+              <span>{{ mat.created_at | timeAgo }}</span>
+              <span>·</span>
+              <span>{{ mat.file_size | fileSize }}</span>
+              <span>·</span>
+              <span>↓ {{ mat.download_count }} descargas</span>
+            </div>
+          </div>
+          <!-- Preview hint -->
+          <div class="preview-hint">
+            <span class="preview-icon">👁️</span>
+            <span>Vista previa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state card" *ngIf="!loading() && materials().length === 0">
+        <div class="empty-state-icon">📚</div>
+        <h3>No se encontraron materiales</h3>
+        <p>Intenta ajustar tus filtros o sé el primero en aportar material para esta búsqueda.</p>
+      </div>
+
+      <!-- Loading skeleton -->
+      <div class="materials-grid" *ngIf="loading()">
+        <div class="material-card card" *ngFor="let i of [1,2,3,4]">
+          <div class="skeleton" style="width:40px;height:80px;border-radius:8px"></div>
+          <div class="skeleton" style="width:48px;height:48px;border-radius:8px"></div>
+          <div class="mat-info" style="width:100%">
+            <div class="skeleton" style="width:70%;height:18px;margin-bottom:8px"></div>
+            <div class="skeleton" style="width:40%;height:14px;margin-bottom:8px"></div>
+            <div class="skeleton" style="width:90%;height:12px"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-ghost full-width" *ngIf="hasMore()" (click)="loadMore()" [disabled]="loadingMore()">
+        {{ loadingMore() ? 'Cargando...' : 'Cargar más' }}
+      </button>
+    </main>
+  </div>
+</div>
+
+<!-- ========== PREVIEW MODAL ========== -->
+<div class="preview-overlay" *ngIf="previewMat()" (click)="onOverlayClick($event)">
+  <div class="preview-modal" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="preview-header">
+      <div class="preview-header-info">
+        <span class="preview-file-icon">{{ getFileIcon(previewMat()!.file_type) }}</span>
+        <div>
+          <h2>{{ previewMat()!.title }}</h2>
+          <div class="preview-meta-line">
+            <span class="subject-tag">{{ previewMat()!.subject_code || previewMat()!.subject }}</span>
+            <span>{{ previewMat()!.career }}</span>
+            <span>·</span>
+            <span>{{ previewMat()!.file_size | fileSize }}</span>
+            <span>·</span>
+            <span>{{ previewMat()!.created_at | timeAgo }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="preview-header-actions">
+        <button class="btn btn-primary" (click)="download(previewMat()!)">
+          ↓ Descargar
+        </button>
+        <button class="btn-close-preview" (click)="closePreview()">✕</button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="preview-body">
+      <!-- PDF preview -->
+      <ng-container *ngIf="isPdf(previewMat()!.file_type)">
+        <div class="pdf-loading" *ngIf="previewLoading()">
+          <div class="spinner"></div>
+          <p>Cargando vista previa del PDF...</p>
+        </div>
+        <iframe
+          *ngIf="previewUrl()"
+          [src]="previewUrl()!"
+          class="pdf-viewer"
+          [class.loaded]="!previewLoading()"
+          (load)="onPreviewLoad()"
+          frameborder="0">
+        </iframe>
+      </ng-container>
+
+      <!-- Non-PDF preview -->
+      <div class="no-preview" *ngIf="!isPdf(previewMat()!.file_type)">
+        <div class="no-preview-icon">{{ getFileIcon(previewMat()!.file_type) }}</div>
+        <h3>{{ previewMat()!.file_name }}</h3>
+        <p class="no-preview-type">Archivo {{ getFileTypeLabel(previewMat()!.file_type) }} · {{ previewMat()!.file_size | fileSize }}</p>
+        <p class="no-preview-hint">La vista previa no está disponible para este tipo de archivo.</p>
+        <button class="btn btn-primary btn-lg" (click)="download(previewMat()!)">↓ Descargar archivo</button>
+      </div>
+    </div>
+
+    <!-- Footer info -->
+    <div class="preview-footer">
+      <div class="preview-details" *ngIf="previewMat()!.description">
+        <h4>Descripción</h4>
+        <p>{{ previewMat()!.description }}</p>
+      </div>
+      <div class="preview-uploader">
+        Subido por <strong>{{ previewMat()!.uploader?.full_name || previewMat()!.uploader?.username || 'Usuario' }}</strong>
+        · {{ previewMat()!.created_at | timeAgo }}
+        · {{ previewMat()!.download_count }} descargas
+      </div>
+    </div>
+  </div>
+</div>
