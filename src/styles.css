@@ -564,6 +564,126 @@ input, textarea, select {
   border-color: var(--color-surface) transparent transparent transparent;
 }
 
+/* ========== UCMITO CHAT STYLE ========== */
+.ucmito-speech.chat-style {
+  padding: 0;
+  max-width: 280px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.chat-header strong {
+  font-weight: 600;
+}
+
+.ucmito-close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.ucmito-close-btn:hover {
+  opacity: 1;
+}
+
+.chat-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-body p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.feedback-textarea {
+  width: 100%;
+  min-height: 60px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  resize: vertical;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.feedback-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.btn-send {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+}
+
+
+.chat-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.sus-questions-container {
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 4px;
+  margin-bottom: 8px;
+}
+
+.sus-question p {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--color-text);
+}
+
+.sus-scale {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.ucmito-rating-icon {
+  width: 32px;
+  height: auto;
+  cursor: pointer;
+  filter: grayscale(100%) opacity(0.5);
+  transition: all 0.2s;
+}
+
+.ucmito-rating-icon:hover,
+.ucmito-rating-icon.selected {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.1);
+}
+
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   :root {

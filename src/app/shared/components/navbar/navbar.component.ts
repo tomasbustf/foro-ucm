@@ -17,11 +17,14 @@ import { NotificationsService } from '../../../core/services/notifications.servi
       <nav class="navbar">
         <a routerLink="/" class="navbar-logo">
           <img src="assets/logo-ucm.png" alt="Logo UCM" class="logo-icon" style="background: transparent;">
+        <div style="display: flex; align-items: center; gap: 6px;">
           <div class="logo-text hide-mobile">
             Foro Estudiantil
             <span>Universidad Católica del Maule</span>
           </div>
-        </a>
+          <div class="beta-badge hide-mobile">BETA</div>
+        </div>
+      </a>
         
         <div class="nav-links hide-mobile">
           <a routerLink="/home" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
@@ -164,6 +167,18 @@ import { NotificationsService } from '../../../core/services/notifications.servi
     .nav-search:focus { border-color: #1B3A6B; background: #FFFFFF; }
     .nav-search::placeholder { color: #718096; }
     .red-line { height: 3px; background: #C8102E; width: 100%; }
+
+    .beta-badge {
+      background: #eef2f7;
+      color: #1B3A6B;
+      font-size: 9px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border: 1px solid #cbd5e1;
+      text-transform: uppercase;
+    }
 
     /* AUTH USER ELEMENTS */
     .notif-badge {
