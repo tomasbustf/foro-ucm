@@ -199,6 +199,7 @@ export class NewsComponent implements OnInit {
       // Angular's innerHTML will handle dangerous tags, but we can do a basic escape
       // Actually, marked handles basic Markdown securely if configured, but default marked
       // in newer versions disables sanitize. Angular's DomSanitizer will sanitize the output.
+      marked.use({ breaks: true });
       const parsed = marked.parse(content, { breaks: true });
       return parsed as string;
     } catch (e) {
