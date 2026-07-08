@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../core/services/supabase.service';
 import { AuthService } from '../../core/services/auth.service';
 import { TimeAgoPipe } from '../../shared/pipes/time-ago.pipe';
+import { marked } from 'marked';
 
 interface NewsItem {
   id: string;
@@ -194,10 +195,19 @@ export class NewsComponent implements OnInit {
 
   renderMarkdown(content: string): string {
     if (!content) return '';
-    return content
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>')
-      .replace(/\\*(.+?)\\*/g, '<em>$1</em>')
-      .replace(/\\n/g, '<br>');
+    try {
+      // Angular's innerHTML will handle dangerous tags, but we can do a basic escape
+      // Actually, marked handles basic Markdown securely if configured, but default marked
+      // in newer versions disables sanitize. Angular's DomSanitizer will sanitize the output.
+      const parsed = marked.parse(content, { breaks: true });
+      return parsed as string;
+    } catch (e) {
+      // Fallback
+      return content
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
   }
 }

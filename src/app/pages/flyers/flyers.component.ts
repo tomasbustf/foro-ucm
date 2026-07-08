@@ -33,7 +33,7 @@ interface Flyer {
 
       <div class="flyers-grid">
         <div class="flyer-card card" *ngFor="let flyer of flyers()">
-          <div class="flyer-image" [style.background-image]="'url(' + flyer.image_url + ')'"></div>
+          <img [src]="flyer.image_url" alt="Afiche" class="flyer-image">
           <div class="flyer-content">
             <h3>{{ flyer.title }}</h3>
             <p class="flyer-desc">{{ flyer.description }}</p>
@@ -114,12 +114,12 @@ interface Flyer {
     .header-text h1 { font-size: 2rem; font-weight: 800; color: var(--color-primary); margin-bottom: 4px; }
     .header-text p { color: var(--color-text-muted); font-size: 1.05rem; }
     
-    .flyers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-lg); }
+    .flyers-grid { column-width: 280px; column-gap: var(--space-lg); }
     
-    .flyer-card { overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; padding: 0; }
+    .flyer-card { break-inside: avoid; margin-bottom: var(--space-lg); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; padding: 0; }
     .flyer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     
-    .flyer-image { width: 100%; height: 200px; background-size: cover; background-position: center; background-color: var(--color-bg-alt); }
+    .flyer-image { width: 100%; height: auto; display: block; background-color: var(--color-bg-alt); }
     
     .flyer-content { padding: var(--space-md); flex: 1; display: flex; flex-direction: column; gap: 8px; }
     .flyer-content h3 { margin: 0; font-size: 1.1rem; font-weight: 700; color: var(--color-text); line-height: 1.3; }
