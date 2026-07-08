@@ -24,7 +24,7 @@ interface Flyer {
       <div class="page-header">
         <div class="header-text">
           <h1>Diario Mural / Afiches</h1>
-          <p>Comparte afiches, eventos, avisos o negocios con la comunidad UCM. (Máx. 1 afiche cada 48h por usuario)</p>
+          <p>Comparte afiches, eventos, avisos o negocios con la comunidad UCM.</p>
         </div>
         <button class="btn btn-primary" *ngIf="auth.isAuthenticated()" (click)="showModal.set(true)">
           + Publicar Aviso
@@ -208,26 +208,7 @@ export class FlyersComponent implements OnInit {
 
     this.uploading.set(true);
     try {
-      // Check 48h rate limit
-      const { data: lastPosts } = await this.supabase.client
-        .from('flyers')
-        .select('created_at')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1);
 
-      if (lastPosts && lastPosts.length > 0) {
-        const lastPostTime = new Date(lastPosts[0].created_at).getTime();
-        const now = new Date().getTime();
-        const hoursDiff = (now - lastPostTime) / (1000 * 60 * 60);
-        
-        if (hoursDiff < 48) {
-          const remainingHours = Math.ceil(48 - hoursDiff);
-          alert(`Solo puedes publicar un afiche cada 48 horas. Vuelve a intentarlo en ${remainingHours} horas.`);
-          this.uploading.set(false);
-          return;
-        }
-      }
 
       // 1. Upload Image
       const fileExt = this.selectedFile.name.split('.').pop();
